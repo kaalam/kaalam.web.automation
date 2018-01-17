@@ -28,9 +28,9 @@ Run
     cd <whatever>/kaalam.web.automation/
     ./render_release.R
     
-    Will create the structure of kaalam.web.automation/ completely with the content of kaalam.web.automation/ (using jekyll), jazz-server/ (using doxygen) and jazz-client/ (using R and knitter)
+Will create the structure of kaalam.web.automation/ completely with the content of kaalam.web.automation/ (using jekyll), jazz-server/ (using doxygen) and jazz-client/ (using R and knitter)
     
-    (running ./build_upload.R will build and upload the content into a local Jazz server for development, ./infinite_loop.R deos the same as build_upload automatically each time a file is modified using inotifywait.)
+Also running: ./build_upload.R will build and upload the content into a local Jazz server for development, ./infinite_loop.R does the same as build_upload automatically each time a file is modified using inotifywait.
     
 
 ## License

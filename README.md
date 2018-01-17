@@ -35,19 +35,19 @@ Also running: ./build_upload.R will build and upload the content into a local Ja
 
 ## License
 
-	For all third party software (too long to list) the original license applies. Everything is FOSS.
+  For all third party software (too long to list) the original license applies. Everything is FOSS.
 	
-	For the automation parts:
+  For the automation parts:
 	
-	This software may have been copy/pasted from some of our projects, in that case we recommend to use the supported project rather than this hack, otherwise, don't even mention the author.
+  This software may have been copy/pasted from some of our projects, in that case we recommend to use the supported project rather than this hack, otherwise, don't even mention the author.
 	
-	... and, of course:
+  ... and, of course:
 	
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.	
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.	
 
 
 ## Support/contributing ...
 
 There is no support or documentation for this other than this file. Anything may and will probably change. Use at your own risk.
 
-Contributors are always welcome! Contribution is encouraged to focus on the valuable content: Jazz and the documentation source rather than here, unless you are an expert in web technologies and can deliver something better.
+Contributors are always welcome! Contribution is encouraged to focus on the valuable content: Jazz and the documentation source rather than here, unless you are an expert in web technologies and can deliver something much better.

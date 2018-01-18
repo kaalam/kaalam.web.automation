@@ -1,0 +1,37 @@
+<html>
+<body>
+<pre>
+        INSTALLING JAZZ ON A CLEAN CENT/OS NODE
+        ---------------------------------------
+
+# See the firewall state
+sudo firewall-cmd --list-all
+
+# Open a port on the firewall
+sudo firewall-cmd --zone=public --add-port=8888/tcp --permanent
+sudo firewall-cmd --reload
+
+# Copy the artifact
+scp -r jadmin@20.1.71.31:/home/jadmin/da_jazz_JAZZ/release release
+
+# Install the service
+sudo make install
+
+# Copy some fortran dependencies (R dependencies)
+sudo scp jadmin@20.1.71.31:/usr/lib64/libgfortran.so.3 /etc/jazz-server/libgfortran.so.3
+sudo scp jadmin@20.1.71.31:/usr/lib64/libicuuc.so.42 /etc/jazz-server/libicuuc.so.42
+sudo scp jadmin@20.1.71.31:/usr/lib64/libicui18n.so.42 /etc/jazz-server/libicui18n.so.42
+sudo scp jadmin@20.1.71.31:/usr/lib64/libicudata.so.42 /etc/jazz-server/libicudata.so.42
+
+# Edit the configuration (Put a valid path for the current user in MDB_PERSISTENCE_PATH.)
+sudo vi /etc/jazz-server/config/jazz_config.ini
+
+# Start the server
+service jazz-server start
+
+# Verify that it is running
+curl http://192.168.100.153:8888/sys//server_vers
+
+</pre>
+</body>
+</html>

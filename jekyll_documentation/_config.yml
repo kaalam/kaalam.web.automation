@@ -24,10 +24,10 @@ disqus_shortname: idrbwjekyll
 google_analytics: UA-66296557-1
 # if you have google-analytics ID, put it in. if not, edit this value to blank.
 
-host: 127.0.0.1
+host: localhost
 # the preview server used. Leave as is.
 
-port: 4000
+port: 8888/jazz_reference
 # the port where the preview is rendered. You can leave this as is unless you have other Jekyll builds using this same port that might cause conflicts. in that case, use another port such as 4006.
 
 exclude:

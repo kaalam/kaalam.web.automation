@@ -202,9 +202,12 @@ build_jekyll <- function(folders, force = FALSE)
 
 	cat(' ...')
 
+	output	<- normalizePath(folders$output)
 	prev_wd <- setwd(normalizePath(folders$jekyllpath))
 
-	stop('Not implemented')
+	system('bundle exec jekyll build')
+	system(paste0('rm -rf ', output, '/'))
+	system(paste0('mv _site ', output))
 
 	setwd(prev_wd)
 

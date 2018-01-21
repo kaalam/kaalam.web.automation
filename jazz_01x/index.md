@@ -1,20 +1,22 @@
-# Internal programming documentation for the Jazz Server 0.1.xx
+# Development Documentation for the Jazz Server
+
 
 ## Requests For Comments (RFC)
 
- - [On Cent/OS install](RFC/binary_install.html)
- - [On instances of services](RFC/instantiation.html)
- - [On LMDB usage](RFC/lmdb_dbis.html)
- - [On the REST API](RFC/rest_api.html)
- - [On testing](RFC/testing.html)
+ - [On Cent/OS install](rfc/binary_install.html)
+ - [On instances of services](rfc/instantiation.html)
+ - [On LMDB usage](rfc/lmdb_dbis.html)
+ - [On the REST API](rfc/rest_api.html)
+ - [On testing](rfc/testing.html)
 
 ## The Jazz Server
 
- - [Jazz server programming documentation](Jazz/index.html)
+ - [Jazz server 0.1.x programming documentation](../develop_jazz01/index.html)
+ - [Jazz server 0.2+ programming documentation](../develop_jazz02/index.html)
 
-## The Big Five Libraries
+## Third Party Libraries in the Server
 
- - [LMDB - Lightning Memory-Mapped Database Manager](LMDB/index.html)
- - [MHD - GNU libmicrohttpd](MHD_help.html)
+ - [LMDB - Lightning Memory-Mapped Database Manager](http://www.lmdb.tech/doc/)
+ - [MHD - GNU libmicrohttpd](https://www.gnu.org/software/libmicrohttpd/manual/libmicrohttpd.html)
  - [CURL - libcurl programming tutorial](https://curl.haxx.se/libcurl/c/libcurl-tutorial.html)
-
+ - [Catch 2! ](https://github.com/catchorg/Catch2/blob/master/docs/Readme.md#top)

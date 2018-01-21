@@ -1,1 +1,14 @@
 #!/usr/bin/Rscript
+
+
+source('automation_utils.R')
+
+path <- paste(c(BLOG_FOLDERS$input, DOC_FOLDERS$input, DOXY_FOLDERS$input, KAAL_FOLDERS$input, NEWS_FOLDERS$input), collapse = ' ')
+
+while (TRUE)
+{
+	build_all()
+	upload_all()
+
+	system(paste('inotifywait -e create,close_write,delete -r', path))
+}

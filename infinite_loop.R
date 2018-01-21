@@ -3,7 +3,8 @@
 
 source('automation_utils.R')
 
-path <- paste(c(BLOG_FOLDERS$input, DOC_FOLDERS$input, DOXY_FOLDERS$input, KAAL_FOLDERS$input, NEWS_FOLDERS$input), collapse = ' ')
+path <- paste(c(BLOG_FOLDERS$input, DOC_FOLDERS$input, DOX1_FOLDERS$input, DOX2_FOLDERS$input, KAAL_FOLDERS$input,
+				NEWS_FOLDERS$input, PYCL_FOLDERS$input, RCLI_FOLDERS$input, STAT_FOLDERS$input), collapse = ' ')
 
 while (TRUE)
 {

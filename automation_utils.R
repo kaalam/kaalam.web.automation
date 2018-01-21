@@ -11,12 +11,12 @@ DOC_FOLDERS	 <- list(input		= '../document.source/jazz_reference',
 					 jekyllpath	= './jekyll_documentation',
 					 web_source	= '_doc_')
 
-DOX1_FOLDERS <- list(input		= '../jazz-server/src/',
+DOX1_FOLDERS <- list(input		= '../jazz-server/src',
 					 output		= '../kaalam.github.io/develop_jazz01',
 					 doxypath	= './doxygen1',
 					 web_source	= '_doxy1_')
 
-DOX2_FOLDERS <- list(input		= '../Jazz/server/src/',
+DOX2_FOLDERS <- list(input		= '../Jazz/server/src',
 					 output		= '../kaalam.github.io/develop_jazz02',
 					 doxypath	= './doxygen2',
 					 web_source	= '_doxy2_')
@@ -95,17 +95,19 @@ most_recent_in_path <- function(path)
 {
 	fn <- list.files(path = normalizePath(path), all.files = TRUE, full.names = TRUE, recursive = TRUE)
 
+	if (length(fn) == 0) return (as.POSIXlt('1900-01-01'))
+
 	max(file.info(fn)$mtime)
 }
 
 most_recent_uploaded <- function(web_source)
 {
 	src <- '_upl_dates_'
-	if (!(src %in% list_sources())) return (as.POSIXlt('1900-01-01'))
+	if (!(src %in% list_sources())) return (as.POSIXlt('1900-01-02'))
 
 	err <- try(date <- get_R_block(src, web_source), silent = TRUE)
 
-	if (class(err) == 'try-error') return (as.POSIXlt('1900-01-01'))
+	if (class(err) == 'try-error') return (as.POSIXlt('1900-01-02'))
 
 	strptime(date, format = '%Y-%m-%d %H:%M:%S')
 }
@@ -171,6 +173,8 @@ upload <- function(folders, force = FALSE)
 #>> Build using doxygen.
 build_doygen <- function(folders, force = FALSE)
 {
+	if (!dir.exists(folders$output)) dir.create(folders$output, showWarnings = FALSE, recursive = TRUE)
+
 	cat('Building:', folders$output)
 
 	if (!force & nothing_to_build(folders)) return(invisible())
@@ -190,17 +194,36 @@ build_doygen <- function(folders, force = FALSE)
 #>> Build using jekyll.
 build_jekyll <- function(folders, force = FALSE)
 {
+	if (!dir.exists(folders$output)) dir.create(folders$output, showWarnings = FALSE, recursive = TRUE)
+
 	cat('Building:', folders$output)
 
 	if (!force & nothing_to_build(folders)) return(invisible())
 
 	cat(' ...')
 
-	prev_wd <- setwd(normalizePath(folders$doxypath))
+	prev_wd <- setwd(normalizePath(folders$jekyllpath))
 
-	system('doxygen')
+	stop('Not implemented')
 
 	setwd(prev_wd)
+
+	cat(' done.\n')
+}
+
+
+#>> Build just copying.
+build_copy <- function(folders, force = FALSE)
+{
+	if (!dir.exists(folders$output)) dir.create(folders$output, showWarnings = FALSE, recursive = TRUE)
+
+	cat('Building:', folders$output)
+
+	if (!force & nothing_to_build(folders)) return(invisible())
+
+	cat(' ...')
+
+	system(paste0('cp -r ', normalizePath(folders$input), '/* ', normalizePath(folders$output), '/'), intern = TRUE)
 
 	cat(' done.\n')
 }
@@ -211,9 +234,13 @@ build_all <- function()
 {
 	build_jekyll(BLOG_FOLDERS)
 	build_jekyll(DOC_FOLDERS)
-	build_doygen(DOXY_FOLDERS)
+	build_doygen(DOX1_FOLDERS)
+	build_doygen(DOX2_FOLDERS)
 	build_jekyll(KAAL_FOLDERS)
 	build_jekyll(NEWS_FOLDERS)
+	build_copy(PYCL_FOLDERS)
+	build_copy(RCLI_FOLDERS)
+	build_copy(STAT_FOLDERS)
 }
 
 
@@ -222,9 +249,12 @@ upload_all <- function()
 {
 	upload(BLOG_FOLDERS)
 	upload(DOC_FOLDERS)
-	upload(DOXY_FOLDERS)
+	upload(DOX1_FOLDERS)
+	upload(DOX2_FOLDERS)
 	upload(KAAL_FOLDERS)
 	upload(NEWS_FOLDERS)
+	upload(PYCL_FOLDERS)
+	upload(RCLI_FOLDERS)
 	upload(STAT_FOLDERS)
 }
 

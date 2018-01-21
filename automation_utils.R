@@ -192,7 +192,7 @@ build_doygen <- function(folders, force = FALSE)
 
 
 #>> Build using jekyll.
-build_jekyll <- function(folders, force = FALSE)
+build_jekyll <- function(folders, force = FALSE, no_bundle = FALSE)
 {
 	if (!dir.exists(folders$output)) dir.create(folders$output, showWarnings = FALSE, recursive = TRUE)
 
@@ -205,7 +205,9 @@ build_jekyll <- function(folders, force = FALSE)
 	output	<- normalizePath(folders$output)
 	prev_wd <- setwd(normalizePath(folders$jekyllpath))
 
-	system('bundle exec jekyll build')
+	if (no_bundle) system('jekyll build')
+	else		   system('bundle exec jekyll build')
+
 	system(paste0('rm -rf ', output, '/'))
 	system(paste0('mv _site ', output))
 

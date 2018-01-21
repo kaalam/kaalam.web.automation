@@ -2,4 +2,4 @@
 
 source('automation_utils.R')
 
-upload(DOX1_FOLDERS)
+upload(DOX2_FOLDERS)

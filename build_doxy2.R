@@ -2,4 +2,4 @@
 
 source('automation_utils.R')
 
-upload(DOX1_FOLDERS)
+build_doygen(DOX2_FOLDERS)

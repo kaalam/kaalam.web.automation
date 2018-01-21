@@ -6,18 +6,23 @@ BLOG_FOLDERS <- list(input		= '../document.source/blog',
 					 jekyllpath = './jekyll_so-simple',
 					 web_source	= '_blog_')
 
-DOC_FOLDERS	 <- list(input		= '../document.source/documentation',
-					 output		= '../kaalam.github.io/documentation',
+DOC_FOLDERS	 <- list(input		= '../document.source/jazz_reference',
+					 output		= '../kaalam.github.io/jazz_reference',
 					 jekyllpath	= './jekyll_documentation',
 					 web_source	= '_doc_')
 
-DOXY_FOLDERS <- list(input		= '../jazz-server/src/',
-					 output		= '../kaalam.github.io/development/Jazz',
-					 doxypath	= './doxygen',
+DOX1_FOLDERS <- list(input		= '../jazz-server/src/',
+					 output		= '../kaalam.github.io/develop_jazz01',
+					 doxypath	= './doxygen1',
+					 web_source	= '_doxy_')
+
+DOX2_FOLDERS <- list(input		= '../Jazz/server/src/',
+					 output		= '../kaalam.github.io/develop_jazz02',
+					 doxypath	= './doxygen2',
 					 web_source	= '_doxy_')
 
 KAAL_FOLDERS <- list(input		= '../document.source/kaalam',
-					 output		= '../kaalam.github.io',
+					 output		= '../kaalam.github.io/kaalam',
 					 jekyllpath	= './jekyll_forty',
 					 web_source	= '_kaal_')
 
@@ -27,7 +32,7 @@ NEWS_FOLDERS <- list(input		= '../document.source/news',
 					 web_source	= '_news_')
 
 STAT_FOLDERS <- list(input		= './jazz_01x',
-					 output		= '../kaalam.github.io/development',
+					 output		= '../kaalam.github.io/develop',
 					 web_source	= '_stat_')
 
 

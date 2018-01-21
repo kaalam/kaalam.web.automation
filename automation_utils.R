@@ -14,12 +14,12 @@ DOC_FOLDERS	 <- list(input		= '../document.source/jazz_reference',
 DOX1_FOLDERS <- list(input		= '../jazz-server/src/',
 					 output		= '../kaalam.github.io/develop_jazz01',
 					 doxypath	= './doxygen1',
-					 web_source	= '_doxy_')
+					 web_source	= '_doxy1_')
 
 DOX2_FOLDERS <- list(input		= '../Jazz/server/src/',
 					 output		= '../kaalam.github.io/develop_jazz02',
 					 doxypath	= './doxygen2',
-					 web_source	= '_doxy_')
+					 web_source	= '_doxy2_')
 
 KAAL_FOLDERS <- list(input		= '../document.source/kaalam',
 					 output		= '../kaalam.github.io/kaalam',
@@ -30,6 +30,14 @@ NEWS_FOLDERS <- list(input		= '../document.source/news',
 					 output		= '../kaalam.github.io/news',
 					 jekyllpath	= './jekyll_evento',
 					 web_source	= '_news_')
+
+PYCL_FOLDERS <- list(input		= '../Jazz/pyjazz/doc/html',
+					 output		= '../kaalam.github.io/pyjazz',
+					 web_source	= '_pycli_')
+
+RCLI_FOLDERS <- list(input		= '../Jazz/rjazz/doc/html',
+					 output		= '../kaalam.github.io/rjazz',
+					 web_source	= '_rcli_')
 
 STAT_FOLDERS <- list(input		= './jazz_01x',
 					 output		= '../kaalam.github.io/develop',

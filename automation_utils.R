@@ -193,4 +193,28 @@ build_jekyll <- function(folders, force = FALSE)
 }
 
 
+#>> Build all.
+build_all <- function()
+{
+	build_jekyll(BLOG_FOLDERS)
+	build_jekyll(DOC_FOLDERS)
+	build_doygen(DOXY_FOLDERS)
+	build_jekyll(KAAL_FOLDERS)
+	build_jekyll(NEWS_FOLDERS)
+}
+
+
+#>> Upload all.
+upload_all <- function()
+{
+	upload(BLOG_FOLDERS)
+	upload(DOC_FOLDERS)
+	upload(DOXY_FOLDERS)
+	upload(KAAL_FOLDERS)
+	upload(NEWS_FOLDERS)
+	upload(STAT_FOLDERS)
+}
+
+
+#>> Setup server.
 set_jazz_host(paste0(jazz_host, jazz_port))

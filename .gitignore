@@ -4,3 +4,8 @@
 *.Rproj
 Gemfile.lock
 .sass-cache/
+_config.yml
+index.md
+_data/
+_posts/
+pages/

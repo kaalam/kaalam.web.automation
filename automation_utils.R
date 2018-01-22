@@ -120,12 +120,17 @@ touch <- function(web_source)
 	put_R_block(source = src, block_key = web_source, sexp = format(Sys.time(), format = '%Y-%m-%d %H:%M:%S'))
 }
 
-nothing_to_build <- function(folders)
+nothing_to_build <- function(folders, extra_input_path = NULL)
 {
 	srct <- most_recent_in_path(folders$input)
 	dest <- most_recent_in_path(folders$output)
 
-	ret <- dest > srct
+	if (is.null(extra_input_path)) ret <- dest > srct
+	else {
+		extt <- most_recent_in_path(extra_input_path)
+
+		ret <- dest > srct & dest > extt
+	}
 
 	if (ret) cat('	(nothing to build)\n')
 
@@ -198,7 +203,7 @@ build_jekyll <- function(folders, force = FALSE, no_bundle = FALSE)
 
 	cat('Building:', folders$output)
 
-	if (!force & nothing_to_build(folders)) return(invisible())
+	if (!force & nothing_to_build(folders, extra_input_path = folders$jekyllpath)) return(invisible())
 
 	cat(' ...')
 

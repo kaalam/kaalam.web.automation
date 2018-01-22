@@ -207,8 +207,13 @@ build_jekyll <- function(folders, force = FALSE, no_bundle = FALSE)
 
 	cat(' ...')
 
+	input	<- normalizePath(folders$input)
+	jekyll	<- normalizePath(folders$jekyllpath)
 	output	<- normalizePath(folders$output)
-	prev_wd <- setwd(normalizePath(folders$jekyllpath))
+
+	system(paste0('cp -rf ', input, '/* ', jekyll, '/'))
+
+	prev_wd <- setwd(jekyll)
 
 	if (no_bundle) system('jekyll build')
 	else		   system('bundle exec jekyll build')

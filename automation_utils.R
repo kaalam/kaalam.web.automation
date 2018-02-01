@@ -22,6 +22,7 @@ DOX2_FOLDERS <- list(input		= '../Jazz/server/src',
 					 web_source	= '_doxy2_')
 
 KAAL_FOLDERS <- list(input		= '../document.source/kaalam',
+					 excluderex = '.*/LICENSE.md$',
 					 output		= '../kaalam.github.io/kaalam',
 					 jekyllpath	= './jekyll_forty',
 					 web_source	= '_kaal_')
@@ -212,6 +213,13 @@ build_jekyll <- function(folders, force = FALSE, no_bundle = FALSE)
 	output	<- normalizePath(folders$output)
 
 	system(paste0('cp -rf ', input, '/* ', jekyll, '/'))
+
+	if (!is.null(folders$excluderex))
+	{
+		fn <- list.files(path = jekyll, full.names = TRUE, recursive = TRUE)
+		ix <- which(grepl(folders$excluderex, fn))
+		if (length(ix) > 0) unlink(fn[ix])
+	}
 
 	prev_wd <- setwd(jekyll)
 

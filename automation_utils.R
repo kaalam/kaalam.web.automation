@@ -7,6 +7,7 @@ BLOG_FOLDERS <- list(input		= '../document.source/blog',
 					 web_source	= '_blog_')
 
 DOC_FOLDERS	 <- list(input		= '../document.source/jazz_reference',
+					 excluderex = '.*(createtag|Gemfile|licenses/LICENSE)$',
 					 output		= '../kaalam.github.io/jazz_reference',
 					 jekyllpath	= './jekyll_documentation',
 					 web_source	= '_doc_')
@@ -216,13 +217,6 @@ build_jekyll <- function(folders, force = FALSE, no_bundle = FALSE)
 
 	system(paste0('cp -rf ', input, '/* ', jekyll, '/'))
 
-	if (!is.null(folders$excluderex))
-	{
-		fn <- list.files(path = jekyll, full.names = TRUE, recursive = TRUE)
-		ix <- which(grepl(folders$excluderex, fn))
-		if (length(ix) > 0) unlink(fn[ix])
-	}
-
 	prev_wd <- setwd(jekyll)
 
 	if (no_bundle) system('jekyll build')
@@ -230,6 +224,13 @@ build_jekyll <- function(folders, force = FALSE, no_bundle = FALSE)
 
 	system(paste0('rm -rf ', output, '/'))
 	system(paste0('mv _site ', output))
+
+	if (!is.null(folders$excluderex))
+	{
+		fn <- list.files(path = output, full.names = TRUE, recursive = TRUE)
+		ix <- which(grepl(folders$excluderex, fn))
+		if (length(ix) > 0) unlink(fn[ix])
+	}
 
 	setwd(prev_wd)
 

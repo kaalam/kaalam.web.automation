@@ -2,5 +2,5 @@
 
 source('automation_utils.R')
 
-build_all()
-upload_all()
+invisible(build_all())
+invisible(upload_all())

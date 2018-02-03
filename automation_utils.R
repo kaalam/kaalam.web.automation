@@ -7,7 +7,7 @@ BLOG_FOLDERS <- list(input		= '../document.source/blog',
 					 web_source	= '_blog_')
 
 DOC_FOLDERS	 <- list(input		= '../document.source/jazz_reference',
-					 excluderex = '.*(createtag|Gemfile|licenses/LICENSE)$',
+					 excluderex = '.*(createtag|Gemfile.*|licenses/LICENSE)$',
 					 output		= '../kaalam.github.io/jazz_reference',
 					 jekyllpath	= './jekyll_documentation',
 					 web_source	= '_doc_')
@@ -23,12 +23,13 @@ DOX2_FOLDERS <- list(input		= '../Jazz/server/src',
 					 web_source	= '_doxy2_')
 
 KAAL_FOLDERS <- list(input		= '../document.source/kaalam',
-					 excluderex = '.*/LICENSE.md$',
+					 excluderex = '.*(/LICENSE.md|gemspec)$',
 					 output		= '../kaalam.github.io/kaalam',
 					 jekyllpath	= './jekyll_forty',
 					 web_source	= '_kaal_')
 
 NEWS_FOLDERS <- list(input		= '../document.source/news',
+					 excluderex = '.*(/README.md)$',
 					 output		= '../kaalam.github.io/news',
 					 jekyllpath	= './jekyll_evento',
 					 web_source	= '_news_')
@@ -42,6 +43,7 @@ RCLI_FOLDERS <- list(input		= '../Jazz/rjazz/doc/html',
 					 web_source	= '_rcli_')
 
 STAT_FOLDERS <- list(input		= './jazz_01x',
+					 excluderex = '.*(/index.md)$',
 					 output		= '../kaalam.github.io/develop',
 					 web_source	= '_stat_')
 
@@ -250,6 +252,13 @@ build_copy <- function(folders, force = FALSE)
 	cat(' ...')
 
 	system(paste0('cp -r ', normalizePath(folders$input), '/* ', normalizePath(folders$output), '/'), intern = TRUE)
+
+	if (!is.null(folders$excluderex))
+	{
+		fn <- list.files(path = folders$output, full.names = TRUE, recursive = TRUE)
+		ix <- which(grepl(folders$excluderex, fn))
+		if (length(ix) > 0) unlink(fn[ix])
+	}
 
 	cat(' done.\n')
 }

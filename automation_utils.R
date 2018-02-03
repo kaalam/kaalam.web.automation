@@ -44,6 +44,8 @@ STAT_FOLDERS <- list(input		= './jazz_01x',
 					 output		= '../kaalam.github.io/develop',
 					 web_source	= '_stat_')
 
+ALL_FOLDERS <- list(BLOG_FOLDERS, DOC_FOLDERS, DOX1_FOLDERS, DOX2_FOLDERS, KAAL_FOLDERS, NEWS_FOLDERS, PYCL_FOLDERS, RCLI_FOLDERS, STAT_FOLDERS)
+
 
 library(rjazz)
 
@@ -268,18 +270,7 @@ build_all <- function()
 
 
 #>> Upload all.
-upload_all <- function()
-{
-	upload(BLOG_FOLDERS)
-	upload(DOC_FOLDERS)
-	upload(DOX1_FOLDERS)
-	upload(DOX2_FOLDERS)
-	upload(KAAL_FOLDERS)
-	upload(NEWS_FOLDERS)
-	upload(PYCL_FOLDERS)
-	upload(RCLI_FOLDERS)
-	upload(STAT_FOLDERS)
-}
+upload_all <- function() sapply(ALL_FOLDERS, upload)
 
 
 #>> Setup server.

@@ -28,6 +28,22 @@ DF_STATS		<- stat_even('', '', '', '')[-1, ]
 REX_PAT_NAM_EXT <- '^(.*/)([[:alnum:]_.-]+)\\.([[:alnum:]]+)$'
 
 
+valid_url <- function(url)
+{
+	stop('Not implemented.')
+
+	TRUE
+}
+
+
+valid_http <- function(http)
+{
+	stop('Not implemented.')
+
+	TRUE
+}
+
+
 hash_folder <- function(pat)
 {
 	fn <- list.files(path = pat, full.names = TRUE, recursive = TRUE)
@@ -51,46 +67,69 @@ hash_folder <- function(pat)
 }
 
 
+extract_capture <- function(txt, capture, fn)
+{
+	# txt <- c('aaa bbb',
+	#		 'aaa url("http://google.com")',
+	#		 'aaa url("http://google.com") bbb url("http://ibm.com") ccc',
+	#		 'url("http://google.com") bbb',
+	#		 'url("http://google.com") bbb url("http://ibm.com") ccc url("http://moft.com")',
+	#		 'url("http://google.com");url("http://ibm.com");url("http://moft.com")',
+	#		 'bbb',
+	#		 'url("http://google.com");url("http://ibm.com");url("http://moft.com")',
+	#		 ';url("http://moft.com")',
+	#		 'url("http://google.com")url("http://ibm.com");url("http://moft.com")zzz',
+	#		 'url("http://google.com")')
+	# capture <- extract_url
+	# cat(paste(txt, collapse = '\n'))
+
+	ix <- which(grepl(capture$signal, txt))
+
+	if (length(ix) == 0) return(character(0))
+
+	txt <- paste(c('top', txt[ix]), collapse = ' ')
+	txt <- paste0(capture$neat, strsplit(txt, split = capture$signal)[[1]][-1])
+
+	rex2 <- paste0('^(.*)(', capture$signal, ')(.*)$')
+	rex3 <- paste0('^(.*)(', capture$signal, ')(.*)(', capture$signal, ')(.*)$')
+
+	if (!all(grepl(rex2, txt))) stop ('internal 1')
+	if ( any(grepl(rex3, txt))) stop ('internal 2')
+
+	if (!all(grepl(capture$capture, txt))) stop(paste('Unexpected', capture$neat, 'syntax in', fn))
+
+	sort(unique(gsub("'", '', gsub('"', '', gsub(capture$capture, '\\1', txt)))))
+}
+
+
 audit_css <- function(fn, web_source)
 {
+	extract_url	 <- list(signal = '\\<url\\>', neat = 'url', capture = '^.*\\<url\\>\\(([^)]*)\\).*$')
+	extract_http <- list(signal = '\\<https?://', neat = 'http://', capture = '^.*\\<https?://([[:alnum:]_.-]+).*$')
 
+	txt <- readLines(fn, warn = FALSE)
+
+	urls <- extract_capture(txt, extract_url, fn)
+
+	for (url in urls) {
+		if (!valid_url(url)) DF_WARNINGS <<- rbind(DF_WARNINGS,
+												   warn_event(level = 'WARN', source = web_source, issue = paste('Invalid url', url, 'in', fn)))
+	}
+
+	https <- extract_capture(txt, extract_http, fn)
+
+	for (http in https) {
+		if (!valid_http(http)) DF_WARNINGS <<- rbind(DF_WARNINGS,
+													 warn_event(level = 'WARN', source = web_source, issue = paste('Invalid http', http, 'in', fn)))
+	}
 }
 
 
 audit_html <- function(fn, web_source)
 {
-
+	stop('Not implemented.')
 }
 
-# audit_http <- function()
-# {
-#	txt <- system('grep -r jekyll* -e http', intern = TRUE)
-#
-#	txt <- txt[!grepl('^Binary file', txt)]
-#
-#	txt <- c(txt, 'test.txt: http://www.google.com http://www.ibm.com/hello.htm kwap https://kaalam.ai')
-#
-#	rex <- '^([^:]+):(?!http)*https?://([[:alnum:]_\\.]+)[ :/]?(.*)$'
-#
-#	df <- data.frame(filename = character(0), host = character(0))
-#
-#	ix <- which(grepl(rex, txt, perl = TRUE))
-#
-#	while (length(ix) > 0)
-#	{
-#		df <- rbind(df, data.frame(filename = gsub(rex, '\\1', txt[ix]), host = gsub(rex, '\\2', txt[ix])))
-#
-#		txt[ix] <- paste0(gsub(rex, '\\1', txt[ix]), ': ', gsub(rex, '\\3', txt[ix]))
-#
-#		ix <- which(grepl(rex, txt))
-#	}
-#
-#	txt[!grepl(rex, txt)]
-#	View(data.frame(txt = ))
-#
-#
-#
-# }
 
 audit_bitmap <- function(fn, web_source)
 {
@@ -108,7 +147,7 @@ audit_bitmap <- function(fn, web_source)
 
 	if (length(ix) != 1)
 	{
-		DF_WARNINGS <<- rbind(DF_WARNINGS, warn_event(level = 'WARNING', source = web_source, issue = paste('Unknown bitmap file', fn)))
+		DF_WARNINGS <<- rbind(DF_WARNINGS, warn_event(level = 'WARN', source = web_source, issue = paste('Unknown bitmap file', fn)))
 
 		return(FALSE)
 	}
@@ -140,7 +179,7 @@ audit_js <- function(fn, web_source)
 
 	if (length(ix) != 1)
 	{
-		DF_WARNINGS <<- rbind(DF_WARNINGS, warn_event(level = 'WARNING', source = web_source, issue = paste('Unknown js', fn)))
+		DF_WARNINGS <<- rbind(DF_WARNINGS, warn_event(level = 'WARN', source = web_source, issue = paste('Unknown js', fn)))
 
 		return(FALSE)
 	}
@@ -176,7 +215,7 @@ audit_font <- function(fn, web_source)
 
 	if (length(ix) != 1)
 	{
-		DF_WARNINGS <<- rbind(DF_WARNINGS, warn_event(level = 'WARNING', source = web_source, issue = paste('Unknown font file', fn)))
+		DF_WARNINGS <<- rbind(DF_WARNINGS, warn_event(level = 'WARN', source = web_source, issue = paste('Unknown font file', fn)))
 
 		return(FALSE)
 	}
@@ -198,7 +237,7 @@ audit_font <- function(fn, web_source)
 
 report_crap <- function(fn, web_source)
 {
-	DF_WARNINGS <<- rbind(DF_WARNINGS, warn_event(level = 'WARNING', source = web_source, issue = paste('Crap file', normalizePath(fn))))
+	DF_WARNINGS <<- rbind(DF_WARNINGS, warn_event(level = 'WARN', source = web_source, issue = paste('Crap file', normalizePath(fn))))
 }
 
 

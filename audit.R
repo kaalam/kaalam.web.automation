@@ -36,7 +36,7 @@ load_globals <- function()
 	{
 		fn <- list.files(path = pat, full.names = TRUE, recursive = TRUE)
 
-		if (length(fn) == 0) return(hashed_folder('', '', '', '')[-1, ])
+		if (length(fn) == 0) return (hashed_folder('', '', '', '')[-1, ])
 
 		if (!all(grepl(REX_PAT_NAM_EXT, fn))) stop(paste('Unexpected file format in', pat))
 
@@ -58,7 +58,7 @@ load_globals <- function()
 	GLOBAL$jscript <- hash_folder(PATH_KNOWN_JS)
 	GLOBAL$fonts   <- hash_folder(PATH_KNOWN_FONTS)
 
-	load_text <- function(fn) sort(unique(gsub('[[:blank:]]', '', readLines(fn))))
+	load_text <- function(fn) sort(unique(readLines(fn)))
 
 	GLOBAL$known_urls	 <- load_text(PATH_KNOWN_URL)
 	GLOBAL$known_domains <- load_text(PATH_KNOWN_DOMAINS)
@@ -71,7 +71,7 @@ load_globals <- function()
 
 nice <- function(s, max_len = 40)
 {
-	if (nchar(s) <= max_len) return(s)
+	if (nchar(s) <= max_len) return (s)
 
 	paste0('(..) ', substr(s, nchar(s) - max_len + 6, nchar(s)))
 }
@@ -79,8 +79,10 @@ nice <- function(s, max_len = 40)
 
 valid_url <- function(url)
 {
-	if (url %in% GLOBAL$known_urls) return(TRUE)
-	if (nice(url) %in% GLOBAL$known_urls) return(TRUE)
+	if (url %in% GLOBAL$known_urls)       return (TRUE)
+	if (nice(url) %in% GLOBAL$known_urls) return (TRUE)
+
+	if (grepl('^[./]*[[:alnum:]_]+\\.(png|jpg)$', url)) return (TRUE)
 
 	rex <- '^([^/]+)/(.*)$'
 
@@ -100,7 +102,7 @@ extract_capture <- function(txt, capture, fn, web_source)
 {
 	ix <- which(grepl(capture$signal, txt))
 
-	if (length(ix) == 0) return(character(0))
+	if (length(ix) == 0) return (character(0))
 
 	txt <- paste(c('top', txt[ix]), collapse = ' ')
 	txt <- paste0(capture$neat, strsplit(txt, split = capture$signal)[[1]][-1])
@@ -111,7 +113,7 @@ extract_capture <- function(txt, capture, fn, web_source)
 	if (!all(grepl(rex2, txt))) stop ('internal 1')
 	if ( any(grepl(rex3, txt))) stop ('internal 2')
 
-	if (all(grepl(capture$capture, txt))) return(sort(unique(gsub("'", '', gsub('"', '', gsub(capture$capture, '\\1', txt))))))
+	if (all(grepl(capture$capture, txt))) return (sort(unique(gsub("'", '', gsub('"', '', gsub(capture$capture, '\\1', txt))))))
 
 	ix <- which(!grepl(capture$capture, txt))
 
@@ -119,7 +121,7 @@ extract_capture <- function(txt, capture, fn, web_source)
 
 	ix <- which(grepl(capture$capture, txt))
 
-	if (length(ix) == 0) return(character(0))
+	if (length(ix) == 0) return (character(0))
 
 	sort(unique(gsub("'", '', gsub('"', '', gsub(capture$capture, '\\1', txt[ix])))))
 }
@@ -197,6 +199,8 @@ audit_bitmap <- function(fn, web_source)
 
 audit_js <- function(fn, web_source)
 {
+	# system(paste0('cp ', fn, ' ', PATH_KNOWN_JS, '/'))
+
 	fn	 <- normalizePath(fn)
 	hash <- digest::digest(fn, file = TRUE)
 
@@ -231,9 +235,9 @@ audit_font <- function(fn, web_source)
 
 audit_static <- function(fn, ext, web_source)
 {
-	if (ext == 'js')   return(audit_js	(fn, web_source))
-	if (ext == 'css')  return(audit_css (fn, web_source))
-	if (ext == 'html') return(audit_html(fn, web_source))
+	if (ext == 'js')   return (audit_js	(fn, web_source))
+	if (ext == 'css')  return (audit_css (fn, web_source))
+	if (ext == 'html') return (audit_html(fn, web_source))
 
 	stop('Unsupported extension.')
 }

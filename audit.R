@@ -115,7 +115,7 @@ extract_capture <- function(txt, capture, fn, web_source)
 
 	ix <- which(!grepl(capture$capture, txt))
 
-	for (tx in txt[ix]) warning(level = 'WARN', source = web_source, issue = paste('Cannot capture in', nice(tx), 'in', nice(fn)))
+	for (tx in txt[ix]) warning (level = 'WARN', source = web_source, issue = paste('Cannot capture in', nice(tx), 'in', nice(fn)))
 
 	ix <- which(grepl(capture$capture, txt))
 
@@ -132,16 +132,22 @@ audit_css <- function(fn, web_source)
 
 	txt <- readLines(fn, warn = FALSE)
 
-	urls <- extract_capture(txt, extract_url, fn, web_source)
+	if (!SKIP_EXTRACT_URL_CSS)
+	{
+		urls <- extract_capture(txt, extract_url, fn, web_source)
 
-	for (url in urls) {
-		if (!valid_url(url)) warning(level = 'WARN', source = web_source, issue = paste('Invalid url', nice(url), 'in', nice(fn)))
+		for (url in urls) {
+			if (!valid_url(url)) warning (level = 'WARN', source = web_source, issue = paste('Invalid url', nice(url), 'in', nice(fn)))
+		}
 	}
 
-	https <- extract_capture(txt, extract_http, fn, web_source)
+	if (!SKIP_EXTRACT_HTTP_CSS)
+	{
+		https <- extract_capture(txt, extract_http, fn, web_source)
 
-	for (http in https) {
-		if (!valid_http(http)) warning(level = 'WARN', source = web_source, issue = paste('Invalid domain in', nice(http), 'in', nice(fn)))
+		for (http in https) {
+			if (!valid_http(http)) warning (level = 'WARN', source = web_source, issue = paste('Invalid domain in', nice(http), 'in', nice(fn)))
+		}
 	}
 }
 
@@ -152,22 +158,28 @@ audit_html <- function(fn, web_source)
 
 	txt <- readLines(fn, warn = FALSE)
 
-	https <- extract_capture(txt, extract_http, fn, web_source)
+	if (!SKIP_EXTRACT_HTTP_HTML)
+	{
+		https <- extract_capture(txt, extract_http, fn, web_source)
 
-	for (http in https) {
-		if (!valid_http(http)) warning(level = 'WARN', source = web_source, issue = paste('Invalid domain in', nice(http), 'in', nice(fn)))
+		for (http in https) {
+			if (!valid_http(http)) warning (level = 'WARN', source = web_source, issue = paste('Invalid domain in', nice(http), 'in', nice(fn)))
+		}
 	}
 
-	txt <- tolower(txt)
-	txt <- gsub('[^[:alnum:]]', ' ', txt)
-	txt <- paste(txt, collapse = ' ')
-	txt <- strsplit(txt, split = ' ')[[1]]
-	txt <- sort(unique(txt))
-	txt <- txt[txt != '']
+	if (!SKIP_BLACKLISTED_HTML)
+	{
+		txt <- tolower(txt)
+		txt <- gsub('[^[:alnum:]]', ' ', txt)
+		txt <- paste(txt, collapse = ' ')
+		txt <- strsplit(txt, split = ' ')[[1]]
+		txt <- sort(unique(txt))
+		txt <- txt[txt != '']
 
-	ix <- which(txt %in% GLOBAL$blacklisted)
+		ix <- which(txt %in% GLOBAL$blacklisted)
 
-	for (i in ix) warning(level = 'WARN', source = web_source, issue = paste('Blacklisted word', nice(txt[i]), 'in', nice(fn)))
+		for (i in ix) warning (level = 'WARN', source = web_source, issue = paste('Blacklisted word', nice(txt[i]), 'in', nice(fn)))
+	}
 }
 
 
@@ -181,9 +193,10 @@ audit_bitmap <- function(fn, web_source)
 	if (length(ix) == 1) {
 		if (GLOBAL$bitmaps$found[ix] == '') GLOBAL$bitmaps$found[ix] <- fn
 		else {
-			if (GLOBAL$bitmaps$found[ix] != fn) warning(level = 'NOTE', source = web_source, issue = paste('Multiple instances of bitmap', nice(fn)))
+			if (GLOBAL$bitmaps$found[ix] != fn & !SKIP_MULTIPLE_BITMAPS)
+				warning (level = 'NOTE', source = web_source, issue = paste('Multiple instances of bitmap', nice(fn)))
 		}
-	} else warning(level = 'WARN', source = web_source, issue = paste('Unknown bitmap file', nice(fn)))
+	} else if (!SKIP_KNOWN_BITMAPS) warning (level = 'WARN', source = web_source, issue = paste('Unknown bitmap file', nice(fn)))
 }
 
 
@@ -197,9 +210,10 @@ audit_js <- function(fn, web_source)
 	if (length(ix) == 1) {
 		if (GLOBAL$jscript$found[ix] == '') GLOBAL$jscript$found[ix] <- fn
 		else {
-			if (GLOBAL$jscript$found[ix] != fn) warning(level = 'NOTE', source = web_source, issue = paste('Multiple instances of js', nice(fn)))
+			if (GLOBAL$jscript$found[ix] != fn & !SKIP_MULTIPLE_JS)
+				warning (level = 'NOTE', source = web_source, issue = paste('Multiple instances of js', nice(fn)))
 		}
-	} else warning(level = 'WARN', source = web_source, issue = paste('Unknown js file', nice(fn)))
+	} else if (!SKIP_KNOWN_JS) warning (level = 'WARN', source = web_source, issue = paste('Unknown js file', nice(fn)))
 }
 
 
@@ -213,9 +227,10 @@ audit_font <- function(fn, web_source)
 	if (length(ix) == 1) {
 		if (GLOBAL$fonts$found[ix] == '') GLOBAL$fonts$found[ix] <- fn
 		else {
-			if (GLOBAL$fonts$found[ix] != fn) warning(level = 'NOTE', source = web_source, issue = paste('Multiple instances of font', nice(fn)))
+			if (GLOBAL$fonts$found[ix] != fn & !SKIP_MULTIPLE_FONTS)
+				warning (level = 'NOTE', source = web_source, issue = paste('Multiple instances of font', nice(fn)))
 		}
-	} else warning(level = 'WARN', source = web_source, issue = paste('Unknown font file', nice(fn)))
+	} else if (!SKIP_KNOWN_FONTS) warning (level = 'WARN', source = web_source, issue = paste('Unknown font file', nice(fn)))
 }
 
 
@@ -254,7 +269,8 @@ audit_file <- function(fn, web_source)
 	if (ext %in% BITMAP_EXTENSIONS) audit_bitmap(fn, web_source)
 	if (ext %in% STATIC_EXTENSIONS) audit_static(fn, ext, web_source)
 	if (ext %in% FONTS_EXTENSIONS)	audit_font	(fn, web_source)
-	if (ext %in% CRAP_EXTENSIONS)	warning (level = 'WARN', source = web_source, issue = paste('Crap file', fn))
+
+	if (ext %in% CRAP_EXTENSIONS & !SKIP_CRAP_CHECK) warning (level = 'WARN', source = web_source, issue = paste('Crap file', fn))
 }
 
 

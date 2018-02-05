@@ -276,19 +276,22 @@ audit_file <- function(fn, web_source)
 
 audit <- function(folders)
 {
-	cat('Auditing:', folders$output, '...')
+	if (folders$web_source %in% SKIP_WEB_SOURCES) cat('Skipping:', folders$output)
+	else {
+		cat('Auditing:', folders$output, '...')
 
-	prev_wd <- setwd(normalizePath(folders$output))
+		prev_wd <- setwd(normalizePath(folders$output))
 
-	rex <- '^.*/kaalam\\.github\\.io/([[:alnum:]/_-]+)$'
+		rex <- '^.*/kaalam\\.github\\.io/([[:alnum:]/_-]+)$'
 
-	if (!grepl(rex, folders$output)) stop('Unexpected format in folders$output.')
+		if (!grepl(rex, folders$output)) stop('Unexpected format in folders$output.')
 
-	for (fn in list.files('.', recursive = T, full.names = T)) audit_file(fn, folders$web_source)
+		for (fn in list.files('.', recursive = T, full.names = T)) audit_file(fn, folders$web_source)
 
-	setwd(prev_wd)
+		setwd(prev_wd)
 
-	cat(' done.\n')
+		cat(' done.\n')
+	}
 }
 
 

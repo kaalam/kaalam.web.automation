@@ -24,6 +24,9 @@ hashed_folder <- function(hash, name, type, found) data.frame(hash = hash, name 
 warn_event	  <- function(level, source, issue) data.frame(level = level, source = source, issue = issue, stringsAsFactors = FALSE)
 stat_event	  <- function(type, files, bytes, last) data.frame(type = type, files = files, bytes = bytes, last = last, stringsAsFactors = FALSE)
 
+extract_url	 <- list(signal = '\\<url\\>', neat = 'url', capture = '^.*\\<url\\>\\(([^)]*)\\).*$')
+extract_http <- list(signal = '\\<https?://', neat = 'http://', capture = '^.*\\<https?://([[:alnum:]_/.-]+).*$')
+
 GLOBAL <- new.env()
 
 
@@ -66,7 +69,7 @@ load_globals <- function()
 }
 
 
-nice <- function(s, max_len = 35)
+nice <- function(s, max_len = 40)
 {
 	if (nchar(s) <= max_len) return(s)
 
@@ -76,17 +79,14 @@ nice <- function(s, max_len = 35)
 
 valid_url <- function(url)
 {
-	url %in% GLOBAL$known_urls
-}
+	if (url %in% GLOBAL$known_urls) return(TRUE)
+	if (nice(url) %in% GLOBAL$known_urls) return(TRUE)
 
+	rex <- '^([^/]+)/(.*)$'
 
-valid_http <- function(http)
-{
-	rex <- '^(.+)/(.*)$'
+	if (grepl(rex, url)) url <- gsub(rex, '\\1', url)
 
-	if (grepl(rex, http)) http <- gsub(rex, '\\1', http)
-
-	http %in% GLOBAL$known_domains
+	url %in% GLOBAL$known_domains
 }
 
 
@@ -127,9 +127,6 @@ extract_capture <- function(txt, capture, fn, web_source)
 
 audit_css <- function(fn, web_source)
 {
-	extract_url	 <- list(signal = '\\<url\\>', neat = 'url', capture = '^.*\\<url\\>\\(([^)]*)\\).*$')
-	extract_http <- list(signal = '\\<https?://', neat = 'http://', capture = '^.*\\<https?://([[:alnum:]_.-]+).*$')
-
 	txt <- readLines(fn, warn = FALSE)
 
 	if (!SKIP_EXTRACT_URL_CSS)
@@ -145,8 +142,8 @@ audit_css <- function(fn, web_source)
 	{
 		https <- extract_capture(txt, extract_http, fn, web_source)
 
-		for (http in https) {
-			if (!valid_http(http)) warning (level = 'WARN', source = web_source, issue = paste('Invalid domain in', nice(http), 'in', nice(fn)))
+		for (url in https) {
+			if (!valid_url(url)) warning (level = 'WARN', source = web_source, issue = paste('Invalid domain in', nice(url), 'in', nice(fn)))
 		}
 	}
 }
@@ -154,16 +151,14 @@ audit_css <- function(fn, web_source)
 
 audit_html <- function(fn, web_source)
 {
-	extract_http <- list(signal = '\\<https?://', neat = 'http://', capture = '^.*\\<https?://([[:alnum:]_.-]+).*$')
-
 	txt <- readLines(fn, warn = FALSE)
 
 	if (!SKIP_EXTRACT_HTTP_HTML)
 	{
 		https <- extract_capture(txt, extract_http, fn, web_source)
 
-		for (http in https) {
-			if (!valid_http(http)) warning (level = 'WARN', source = web_source, issue = paste('Invalid domain in', nice(http), 'in', nice(fn)))
+		for (url in https) {
+			if (!valid_url(url)) warning (level = 'WARN', source = web_source, issue = paste('Invalid domain in', nice(url), 'in', nice(fn)))
 		}
 	}
 

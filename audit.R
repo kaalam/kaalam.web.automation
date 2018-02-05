@@ -276,7 +276,7 @@ audit_file <- function(fn, web_source)
 
 audit <- function(folders)
 {
-	if (folders$web_source %in% SKIP_WEB_SOURCES) cat('Skipping:', folders$output)
+	if (folders$web_source %in% SKIP_WEB_SOURCES) cat('Skipping:', folders$output, '\n')
 	else {
 		cat('Auditing:', folders$output, '...')
 
@@ -325,5 +325,36 @@ doit <- function()
 }
 
 
+config <- function()
+{
+	assign('SKIP_BLACKLISTED_HTML', FALSE, envir = .GlobalEnv)
+	assign('SKIP_CRAP_CHECK',       FALSE, envir = .GlobalEnv)
+
+	assign('SKIP_EXTRACT_HTTP_CSS',  FALSE, envir = .GlobalEnv)
+	assign('SKIP_EXTRACT_HTTP_HTML', FALSE, envir = .GlobalEnv)
+	assign('SKIP_EXTRACT_URL_CSS',   FALSE, envir = .GlobalEnv)
+
+	assign('SKIP_KNOWN_BITMAPS', FALSE, envir = .GlobalEnv)
+	assign('SKIP_KNOWN_FONTS',   FALSE, envir = .GlobalEnv)
+	assign('SKIP_KNOWN_JS',      FALSE, envir = .GlobalEnv)
+
+	assign('SKIP_MULTIPLE_BITMAPS', FALSE, envir = .GlobalEnv)
+	assign('SKIP_MULTIPLE_FONTS',   FALSE, envir = .GlobalEnv)
+	assign('SKIP_MULTIPLE_JS',      FALSE, envir = .GlobalEnv)
+
+	assign('SKIP_WEB_SOURCES', '', envir = .GlobalEnv)
+
+	if (file.exists('audit.conf.r')) {
+		cat('Configuration file audit.conf.r found, containing:\n\n')
+		cat(paste(readLines('audit.conf.r'), collapse = '\n'))
+		cat('\n\nApplying configuration.\n\n')
+
+		source('audit.conf.r', local = FALSE)
+
+	} else cat('No configuration file audit.conf.r found, doing all checks to all web sources.\n\n')
+}
+
+
+config()
 load_globals()
 doit()

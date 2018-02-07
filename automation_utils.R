@@ -29,7 +29,7 @@ KAAL_FOLDERS <- list(input		= '../document.source/kaalam',
 					 web_source	= '_kaal_')
 
 NEWS_FOLDERS <- list(input		= '../document.source/news',
-					 excluderex = '.*(/README.md)$',
+					 excluderex = '.*(/README.md|feed.xml)$',
 					 output		= '../kaalam.github.io/news',
 					 jekyllpath	= './jekyll_evento',
 					 web_source	= '_news_')

@@ -82,7 +82,7 @@ valid_url <- function(url)
 	if (url %in% GLOBAL$known_urls)       return (TRUE)
 	if (nice(url) %in% GLOBAL$known_urls) return (TRUE)
 
-	if (grepl('^[./]*[[:alnum:]_]+\\.(png|jpg)$', url)) return (TRUE)
+	if (grepl('^[./]*[[:alnum:]/_-]+\\.(png|jpg)$', url)) return (TRUE)
 
 	rex <- '^([^/]+)/(.*)$'
 

@@ -2,6 +2,7 @@
 
 
 BLOG_FOLDERS <- list(input		= '../document.source/blog',
+					 excluderex = '.*(feed.xml|robots.txt|sitemap.xml|assets/js/plugins/search.js)$',
 					 output		= '../kaalam.github.io/blog',
 					 jekyllpath = './jekyll_so-simple',
 					 web_source	= '_blog_')

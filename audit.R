@@ -182,6 +182,8 @@ audit_html <- function(fn, web_source)
 
 audit_bitmap <- function(fn, web_source)
 {
+	# system(paste0('cp ', fn, ' ', PATH_KNOWN_BITMAPS, '/'))
+
 	fn	 <- normalizePath(fn)
 	hash <- digest::digest(fn, file = TRUE)
 
@@ -218,6 +220,8 @@ audit_js <- function(fn, web_source)
 
 audit_font <- function(fn, web_source)
 {
+	# system(paste0('cp ', fn, ' ', PATH_KNOWN_FONTS, '/'))
+
 	fn	 <- normalizePath(fn)
 	hash <- digest::digest(fn, file = TRUE)
 

@@ -24,7 +24,7 @@ DOX2_FOLDERS <- list(input		= '../Jazz/server/src',
 					 web_source	= '_doxy2_')
 
 KAAL_FOLDERS <- list(input		= '../document.source/kaalam',
-					 excluderex = '.*(/LICENSE.md|gemspec)$',
+					 excluderex = '.*(/LICENSE.md|gemspec|ie..scss|backgroundsize.min.htc)$',
 					 output		= '../kaalam.github.io/kaalam',
 					 jekyllpath	= './jekyll_forty',
 					 web_source	= '_kaal_')

@@ -8,7 +8,7 @@ BLOG_FOLDERS <- list(input		= '../document.source/blog',
 					 web_source	= '_blog_')
 
 DOC_FOLDERS	 <- list(input		= '../document.source/jazz_reference',
-					 excluderex = '.*(createtag|Gemfile.*|licenses/LICENSE)$',
+					 excluderex = '.*(createtag|Gemfile.*|licenses/LICENSE|favicon.ico)$',
 					 output		= '../kaalam.github.io/jazz_reference',
 					 jekyllpath	= './jekyll_documentation',
 					 web_source	= '_doc_')

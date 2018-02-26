@@ -185,7 +185,7 @@ upload <- function(folders, force = FALSE)
 #>> Copy favicon.ico to dest.
 favicon <- function(dest)
 {
-	file.copy(from = 'images/favicon.ico', to = paste0(dest, '/favicon.ico'), overwrite = TRUE)
+	# file.copy(from = 'images/favicon.ico', to = paste0(dest, '/favicon.ico'), overwrite = TRUE)
 }
 
 

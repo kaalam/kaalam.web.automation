@@ -182,6 +182,13 @@ upload <- function(folders, force = FALSE)
 }
 
 
+#>> Copy favicon.ico to dest.
+favicon <- function(dest)
+{
+	file.copy(from = 'images/favicon.ico', to = paste0(dest, '/favicon.ico'), overwrite = TRUE)
+}
+
+
 #>> Build using doxygen.
 build_doygen <- function(folders, force = FALSE)
 {
@@ -189,7 +196,7 @@ build_doygen <- function(folders, force = FALSE)
 
 	cat('Building:', folders$output)
 
-	if (!force & nothing_to_build(folders)) return(invisible())
+	if (!force & nothing_to_build(folders, extra_input_path = folders$doxypath)) return(invisible())
 
 	cat(' ...')
 
@@ -197,7 +204,16 @@ build_doygen <- function(folders, force = FALSE)
 
 	system('doxygen')
 
+	if (!is.null(folders$excluderex))
+	{
+		fn <- list.files(path = output, full.names = TRUE, recursive = TRUE)
+		ix <- which(grepl(folders$excluderex, fn))
+		if (length(ix) > 0) unlink(fn[ix])
+	}
+
 	setwd(prev_wd)
+
+	favicon(folders$output)
 
 	cat(' done.\n')
 }
@@ -237,6 +253,8 @@ build_jekyll <- function(folders, force = FALSE, no_bundle = FALSE)
 
 	setwd(prev_wd)
 
+	favicon(folders$output)
+
 	cat(' done.\n')
 }
 
@@ -260,6 +278,8 @@ build_copy <- function(folders, force = FALSE)
 		ix <- which(grepl(folders$excluderex, fn))
 		if (length(ix) > 0) unlink(fn[ix])
 	}
+
+	favicon(folders$output)
 
 	cat(' done.\n')
 }

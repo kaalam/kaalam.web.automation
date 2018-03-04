@@ -24,8 +24,8 @@ hashed_folder <- function(hash, name, type, found) data.frame(hash = hash, name 
 warn_event	  <- function(level, source, issue) data.frame(level = level, source = source, issue = issue, stringsAsFactors = FALSE)
 stat_event	  <- function(type, files, bytes, last) data.frame(type = type, files = files, bytes = bytes, last = last, stringsAsFactors = FALSE)
 
-extract_url	 <- list(signal = '\\<url\\>', neat = 'url', capture = '^.*\\<url\\>\\(([^)]*)\\).*$')
-extract_http <- list(signal = '\\<https?://', neat = 'http://', capture = '^.*\\<https?://([[:alnum:]_/.-]+).*$')
+extract_url	 <- list(signal = '\\<url\\>', neat = 'url', capture = '^.*\\<url\\>\\(([^)]*)\\).*$', except = '^url"')
+extract_http <- list(signal = '\\<https?://', neat = 'http://', capture = '^.*\\<https?://([[:alnum:]_/.-]+).*$', except = '^https?://"')
 
 GLOBAL <- new.env()
 
@@ -117,7 +117,10 @@ extract_capture <- function(txt, capture, fn, web_source)
 
 	ix <- which(!grepl(capture$capture, txt))
 
-	for (tx in txt[ix]) warning (level = 'WARN', source = web_source, issue = paste('Cannot capture in', nice(tx), 'in', nice(fn)))
+	for (tx in txt[ix]){
+		if (!grepl(capture$except, nice(tx)))
+			warning (level = 'WARN', source = web_source, issue = paste('Cannot capture in', nice(tx), 'in', nice(fn)))
+	}
 
 	ix <- which(grepl(capture$capture, txt))
 

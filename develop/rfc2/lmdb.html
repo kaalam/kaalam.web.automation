@@ -1,0 +1,63 @@
+<html>
+<body>
+<pre>
+
+	THIS IS A DRAFT  -  Jazz 0.2+ uses named sources.
+
+    Jazz's LMDB implementation has some configurable options (see rom_default/jazz_config.ini), especially for mdb_env_create() .. mdb_env_open()
+    but uses a subset of the functionality. Any deviation from default values of the configuration has yet to be tested.
+
+    Specifically:
+
+    1.  Databases are ALWAYS named. Only LMDB uses the NULL database to keep the names of the databases. No writing to NULL or reading for other
+        purposes than jzzBLOCKS::open_all_sources() is allowed.
+    2.  In mdb_dbi_open() the only supported flags are: 0 (for everything except creating a new database) and MDB_CREATE for just that.
+        Again, in case that wasn't clear,: Duplicated keys are forbidden & keys are strings (no one cares how they are sorted internally).
+    3.  mdb_txn_begin() only uses the flag MDB_RDONLY (for reading) and 0 for writing/deleting.
+    4.  Transactions are never nested.
+    5.  Writing transactions are committed immediately and transactions always finish immediately.
+    6.  Reading transactions return internal pointers and must be jzzBLOCKS::block_unprotect()ed asap:
+            ""Because LMDB is very efficient (and usually zero-copy), the data returned in an MDB_val structure may be memory-mapped straight from
+            disk. In other words look but do not touch (or free() for that matter). Once a transaction is closed, the values can no longer be used,
+            so make a copy if you need to keep them after that."" -- LMDB dixit.
+        Of course, the block can be jzzBLOCKS::new_block_copy()ed if there is need to keep it for a long time before jzzBLOCKS::block_unprotect().
+    7.  When CATCH_TEST is defined, the database path from the configuration is changed silently and replaced by a new one just for the tests.
+    8.  A Jazz source IS an LMDB dbi. Sources stored in persistence are discovered via jzzBLOCKS::open_all_sources() when jzzBLOCKS is started.
+    9.  All sources have at least one block with the special key "." of type block_SourceAttributes written automatically by jzzBLOCKS::new_source()
+    10. Two reserved database names are: "SYS" and "ROM".
+    11. "ROM" is not really persisted. "ROM" is (READ ONLY MESHES) a functional API that retrieves data blocks, just using the same syntax as if they
+        were stored. Obviously, a functional instrument possibly containing billions of records doesn't need to be stored or even computed except
+        for the required elements. A JS asking for the first 50 rows of a 1 billion long instrument should only need 50 elements to be computed.
+        As an LMDB dbi, "ROM" is empty. In the future it could store some parameters required by functions, if that makes sense.
+    12. "SYS" contains the following blocks.
+
+        -------------------------------------------------
+                key : type
+        ------------+------------------------------------
+        "all_role"  : BLOCKTYPE_ALL_ROLES
+        "all_kysp"  : BLOCKTYPE_ALL_KEYSPACE
+        "all_crty"  : BLOCKTYPE_ALL_SECURITY
+        "my_log%d"  : BLOCKTYPE_MY_LOG_EVENTS
+        "my_htt%d"  : BLOCKTYPE_MY_PROFILING
+        "my_crt%d"  : BLOCKTYPE_MY_SECURITY
+        ------------+------------------------------------
+          %d - many blocks with trailing decimal numbers
+        -------------------------------------------------
+
+        There is only one block of each "all_*" key and the foreman forces that to be equal on all nodes. All these blocks are raw images of records
+        that evolve and are only valid for the current version.
+    13. There is an automatic version control of SYS block types that creates the "SYS" dbi from scratch when the version changes.
+
+    Caveats (And their current status in the implementation):
+
+    TODO    1! Use an MDB_env* in the process which opened it, without fork()ing.
+    DONE    2! Do not have open an LMDB database twice in the same process at the same time. Not even from a plain open() call - close()ing it breaks
+               flock()  advisory locking.
+    SEE 6.  3! Avoid long-lived transactions. Read transactions prevent reuse of pages freed by newer write transactions, thus the database can grow
+               quickly. Write transactions prevent other write transactions, since writes are serialized.
+    SEE 6.  4! Avoid suspending a process with active transactions. These would then be "long-lived" as above. Also read transactions suspended when
+               writers commit could sometimes see wrong data.
+
+</pre>
+</body>
+</html>

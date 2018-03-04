@@ -43,7 +43,7 @@ RCLI_FOLDERS <- list(input		= '../Jazz/r_package/doc/html/',
 					 output		= '../kaalam.github.io/rjazz',
 					 web_source	= '_rcli_')
 
-STAT_FOLDERS <- list(input		= './jazz_01x',
+STAT_FOLDERS <- list(input		= './develop',
 					 excluderex = '.*(/index.md)$',
 					 output		= '../kaalam.github.io/develop',
 					 web_source	= '_stat_')

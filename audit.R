@@ -204,7 +204,7 @@ audit_bitmap <- function(fn, web_source)
 
 audit_js <- function(fn, web_source)
 {
-	# system(paste0('cp ', fn, ' ', PATH_KNOWN_JS, '/'))
+	# system(paste0('cp ', fn, ' ', PATH_KNOWN_JS, '/', gsub('\\.', '', as.character(runif(1)*9e14)), '.js'))
 
 	fn	 <- normalizePath(fn)
 	hash <- digest::digest(fn, file = TRUE)
@@ -223,7 +223,7 @@ audit_js <- function(fn, web_source)
 
 audit_font <- function(fn, web_source)
 {
-	# system(paste0('cp ', fn, ' ', PATH_KNOWN_FONTS, '/'))
+	# system(paste0('cp ', fn, ' ', PATH_KNOWN_FONTS, '/', gsub('\\.', '', as.character(runif(1)*9e14)), '.font'))
 
 	fn	 <- normalizePath(fn)
 	hash <- digest::digest(fn, file = TRUE)

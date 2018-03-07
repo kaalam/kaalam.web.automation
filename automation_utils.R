@@ -40,6 +40,7 @@ PYCL_FOLDERS <- list(input		= '../Jazz/py_package/doc/html/',
 					 web_source	= '_pycli_')
 
 RCLI_FOLDERS <- list(input		= '../Jazz/r_package/rjazz/docs/',
+					 excluderex = '.*(/pkgdown.yml)$',
 					 output		= '../kaalam.github.io/rjazz',
 					 web_source	= '_rcli_')
 

@@ -35,7 +35,8 @@ NEWS_FOLDERS <- list(input		= '../document.source/news',
 					 jekyllpath	= './jekyll_evento',
 					 web_source	= '_news_')
 
-PYCL_FOLDERS <- list(input		= '../Jazz/py_package/doc/html/',
+PYCL_FOLDERS <- list(input		= '../Jazz/py_package/html/',
+					 excluderex = '.*(*.md)$',
 					 output		= '../kaalam.github.io/pyjazz',
 					 web_source	= '_pycli_')
 
@@ -286,6 +287,67 @@ build_copy <- function(folders, force = FALSE)
 }
 
 
+#>> Build unsing knitr and pydoc.
+build_pydoc <- function(folders, force = FALSE)
+{
+	# folders <- PYCL_FOLDERS
+	if (!dir.exists(folders$output)) dir.create(folders$output, showWarnings = FALSE, recursive = TRUE)
+
+	cat('Building:', folders$input)
+
+	if (!force & nothing_to_build(folders)) return(invisible())
+
+	cat(' ...')
+
+	index_in  <- paste0(folders$input, 'index.md')
+	index_out <- paste0(folders$input, 'index.html')
+
+	knitr::knit2html(input = index_in, output = index_out);	system('rm index.txt')
+
+	system('yes | /home/jadmin/anaconda3/bin/pip uninstall pyjazz', ignore.stderr = TRUE)
+	system('/home/jadmin/anaconda3/bin/pip install pyjazz')
+
+	system(paste('(cd', folders$input, ';', '/home/jadmin/anaconda3/bin/pydoc -w pyjazz)'))
+
+	txt <- readLines(paste0(folders$input, 'pyjazz.html'), warn = FALSE)
+
+	rex <- '^.*href=.pyjazz.(.+).html.*$'
+
+	ix <- which(grepl(rex, txt))
+
+	names <- gsub(rex, '\\1', txt[ix])
+
+	sapply(names, function(x) system(paste0('(cd ', folders$input, '; ', '/home/jadmin/anaconda3/bin/pydoc -w pyjazz.', x, ')')))
+
+	fn <- list.files(path = folders$input, pattern = '*.html')
+
+	fn <- sort(fn[!(fn %in% c('index.html', 'pyjazz.html'))])
+
+	writeLines(c('## pyjazz reference',
+				 '',
+				 '  - [MAIN](index.html) pyjazz documentation page',
+				 '',
+				 '### Package',
+				 '',
+				 '  - [pyjazz](pyjazz.html)',
+				 '',
+				 '### Content',
+				 '',
+				 paste0(' - [', gsub('.html', '', fn), '](', fn, ')'),
+				 ''),
+			   paste0(folders$input, 'reference.md'))
+
+	ref_in  <- paste0(folders$input, 'reference.md')
+	ref_out <- paste0(folders$input, 'reference.html')
+
+	knitr::knit2html(input = ref_in, output = ref_out); system('rm reference.txt')
+
+	cat(' done.\n')
+
+	build_copy(folders, force = force)
+}
+
+
 #>> Build all.
 build_all <- function()
 {
@@ -295,7 +357,7 @@ build_all <- function()
 	build_doygen(DOX2_FOLDERS)
 	build_jekyll(KAAL_FOLDERS)
 	build_jekyll(NEWS_FOLDERS, no_bundle = TRUE)
-	build_copy(PYCL_FOLDERS)
+	build_pydoc(PYCL_FOLDERS)
 	build_copy(RCLI_FOLDERS)
 	build_copy(STAT_FOLDERS)
 }

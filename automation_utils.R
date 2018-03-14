@@ -321,7 +321,7 @@ build_pydoc <- function(folders, force = FALSE)
 
 	fn <- list.files(path = folders$input, pattern = '*.html')
 
-	fn <- sort(fn[!(fn %in% c('index.html', 'pyjazz.html'))])
+	fn <- sort(fn[!(fn %in% c('index.html', 'pyjazz.html', 'reference.html'))])
 
 	writeLines(c('## pyjazz reference',
 				 '',

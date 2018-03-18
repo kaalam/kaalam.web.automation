@@ -21,6 +21,7 @@ DOX1_FOLDERS <- list(input		= '../jazz-server/src',
 DOX2_FOLDERS <- list(input		= '../Jazz/server/src',
 					 output		= '../kaalam.github.io/develop_jazz02',
 					 doxypath	= './doxygen2',
+					 assetpath  = './doxygen2/diagrams'
 					 web_source	= '_doxy2_')
 
 KAAL_FOLDERS <- list(input		= '../document.source/kaalam',

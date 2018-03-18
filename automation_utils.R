@@ -21,7 +21,7 @@ DOX1_FOLDERS <- list(input		= '../jazz-server/src',
 DOX2_FOLDERS <- list(input		= '../Jazz/server/src',
 					 output		= '../kaalam.github.io/develop_jazz02',
 					 doxypath	= './doxygen2',
-					 assetpath  = './doxygen2/diagrams',
+					 assetpath  = 'diagrams',
 					 web_source	= '_doxy2_')
 
 KAAL_FOLDERS <- list(input		= '../document.source/kaalam',
@@ -203,9 +203,22 @@ build_doygen <- function(folders, force = FALSE)
 
 	cat(' ...')
 
+	output	<- normalizePath(folders$output)
+
 	prev_wd <- setwd(normalizePath(folders$doxypath))
 
 	system('doxygen')
+
+	if (!is.null(folders$assetpath))
+	{
+		fn <- list.files(path = folders$assetpath)
+
+		opat <- paste0(output, '/', folders$assetpath)
+
+		if (!dir.exists(opat)) dir.create(opat, showWarnings = FALSE, recursive = TRUE)
+
+		file.copy(from = paste0(folders$assetpath, '/', fn), to = paste0(opat, '/', fn), overwrite = TRUE)
+	}
 
 	if (!is.null(folders$excluderex))
 	{

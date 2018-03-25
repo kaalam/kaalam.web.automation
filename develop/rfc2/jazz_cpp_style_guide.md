@@ -89,6 +89,7 @@ All this is literally taken from Google's style guide, we just repeat it to make
   - Filenames should be all lowercase and can include underscores.
   - Type names start with a capital letter and have a capital letter for each new word, with no underscores.
   - The names of variables (including function parameters) and data members are all lowercase, with underscores between words.
+  - Regular functions have mixed case; accessors and mutators may be named like variables.
   - No spaces around period or arrow. Pointer operators do not have trailing spaces: *a, &b, c.d, e->f
   - Do not needlessly surround the return expression with parentheses.
   - The hash mark that starts a preprocessor directive should always be at the beginning of the line.

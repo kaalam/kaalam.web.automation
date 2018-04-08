@@ -5,7 +5,7 @@ We fork Google C++ style guide with some divergent rules, detailed in this docum
 
 ### SWDWGAD principle
 
-"Since when don't we give a damn?" (SWDWGAD) is a sensation one may have looking at some codebases. Well, in Jazz we do give a damn, we expect the code to be running 30 years from now. We understand some coders get mad when someone else fixes formatting or spelling issues. Some very talented people don't need order, others do. We want to include everyone here. So please, have a thick skin when your code gets fixed on what you consider "silly" issues, and above all: never make it personal. Having to live with unpleasant code that could improve in readability with some vertical alignment, functional grouping, fixing spelling errors before they become titles, ... distracts many coders. You may think fixing a spelling error is "focusing on the irrelevant", please, understand that for some people your spelling error acts like a firework that forces them to "focus on the irrelevant" each time they see it. Also, ugly code acts like an implicit permission to do ugly things with it, it only gets worse with time.
+"Since when don't we give a damn?" (SWDWGAD) is a sensation one may have looking at some codebases. Well, in Jazz we do give a damn, we expect the code to be running 30 years from now. We understand some coders get mad when someone else fixes formatting or spelling issues. Some very talented people don't need order, others do. We want to include everyone here. So please, have a thick skin when your code gets fixed on what you consider "silly" issues, and above all: never make it personal. Also, ugly code acts like an implicit permission to do ugly things with it. That only gets worse with time.
 
 
 ### Consistency first 
@@ -15,7 +15,7 @@ These rules do not apply to files that are completely imported from other projec
 
 ### Line length, tab size and encoding 
 
-Rather than using Google's 80 character with 4 exceptions rule, we use column 150(*) as a limit, no exceptions. Tabs are used, tab space is 4, line feed is POSIX \n and trailing space is removed.
+Rather than using Google's 80 character with 4 exceptions rule, we use column 150(*) as a limit, no exceptions. Tabs are used, tab space is 4, line feed is POSIX \\n and trailing space is removed.
 
 (*) Note that column 150 is not exactly the same as 150 characters per line as tabs count as the number of spaces they replace.
 

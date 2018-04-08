@@ -2,4 +2,4 @@
 
 source('automation_utils.R')
 
-build_doygen(DOX1_FOLDERS)
+build_doxygen(DOX1_FOLDERS)

@@ -193,7 +193,7 @@ favicon <- function(dest)
 
 
 #>> Build using doxygen.
-build_doygen <- function(folders, force = FALSE)
+build_doxygen <- function(folders, force = FALSE)
 {
 	if (!dir.exists(folders$output)) dir.create(folders$output, showWarnings = FALSE, recursive = TRUE)
 
@@ -367,8 +367,8 @@ build_all <- function()
 {
 	build_jekyll(BLOG_FOLDERS)
 	build_jekyll(DOC_FOLDERS)
-	build_doygen(DOX1_FOLDERS)
-	build_doygen(DOX2_FOLDERS)
+	build_doxygen(DOX1_FOLDERS)
+	build_doxygen(DOX2_FOLDERS)
 	build_jekyll(KAAL_FOLDERS)
 	build_jekyll(NEWS_FOLDERS, no_bundle = TRUE)
 	build_pydoc(PYCL_FOLDERS)

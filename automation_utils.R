@@ -1,12 +1,6 @@
 #> Functions used by all the scripts in kaalam.web.automation
 
 
-BLOG_FOLDERS <- list(input		= '../document.source/blog',
-					 excluderex = '.*(feed.xml|robots.txt|sitemap.xml|assets/js/plugins/search.js)$',
-					 output		= '../kaalam.github.io/blog',
-					 jekyllpath = './jekyll_so-simple',
-					 web_source	= '_blog_')
-
 DOC_FOLDERS	 <- list(input		= '../document.source/jazz_reference',
 					 excluderex = '.*(createtag|Gemfile.*|licenses/LICENSE|favicon.ico)$',
 					 output		= '../kaalam.github.io/jazz_reference',
@@ -30,12 +24,6 @@ KAAL_FOLDERS <- list(input		= '../document.source/kaalam',
 					 jekyllpath	= './jekyll_forty',
 					 web_source	= '_kaal_')
 
-NEWS_FOLDERS <- list(input		= '../document.source/news',
-					 excluderex = '.*(/README.md|feed.xml)$',
-					 output		= '../kaalam.github.io/news',
-					 jekyllpath	= './jekyll_evento',
-					 web_source	= '_news_')
-
 PYCL_FOLDERS <- list(input		= '../Jazz/py_package/html/',
 					 excluderex = '.*(*.md)$',
 					 output		= '../kaalam.github.io/pyjazz',
@@ -51,7 +39,19 @@ STAT_FOLDERS <- list(input		= './develop',
 					 output		= '../kaalam.github.io/develop',
 					 web_source	= '_stat_')
 
-ALL_FOLDERS <- list(BLOG_FOLDERS, DOC_FOLDERS, DOX1_FOLDERS, DOX2_FOLDERS, KAAL_FOLDERS, NEWS_FOLDERS, PYCL_FOLDERS, RCLI_FOLDERS, STAT_FOLDERS)
+# BLOG_FOLDERS <- list(input	= '../document.source/blog',
+# 					 excluderex = '.*(feed.xml|robots.txt|sitemap.xml|assets/js/plugins/search.js)$',
+# 					 output		= '../kaalam.github.io/blog',
+# 					 jekyllpath = './jekyll_so-simple',
+# 					 web_source	= '_blog_')
+#
+# NEWS_FOLDERS <- list(input	= '../document.source/news',
+# 					 excluderex = '.*(/README.md|feed.xml)$',
+# 					 output		= '../kaalam.github.io/news',
+# 					 jekyllpath	= './jekyll_evento',
+# 					 web_source	= '_news_')
+
+ALL_FOLDERS <- list(DOC_FOLDERS, DOX1_FOLDERS, DOX2_FOLDERS, KAAL_FOLDERS, PYCL_FOLDERS, RCLI_FOLDERS, STAT_FOLDERS)
 
 
 library(rjazz)

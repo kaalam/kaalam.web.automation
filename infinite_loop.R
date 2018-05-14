@@ -3,9 +3,11 @@
 
 source('automation_utils.R')
 
-path <- paste(c(BLOG_FOLDERS$input, BLOG_FOLDERS$jekyllpath, DOC_FOLDERS$input, DOC_FOLDERS$jekyllpath, DOX1_FOLDERS$input, DOX2_FOLDERS$input,
-				KAAL_FOLDERS$input, KAAL_FOLDERS$jekyllpath, NEWS_FOLDERS$input, NEWS_FOLDERS$jekyllpath, PYCL_FOLDERS$input, RCLI_FOLDERS$input,
-				STAT_FOLDERS$input), collapse = ' ')
+# path <- paste(c(BLOG_FOLDERS$input, BLOG_FOLDERS$jekyllpath, DOC_FOLDERS$input, DOC_FOLDERS$jekyllpath, DOX1_FOLDERS$input, DOX2_FOLDERS$input,
+# 				KAAL_FOLDERS$input, KAAL_FOLDERS$jekyllpath, NEWS_FOLDERS$input, NEWS_FOLDERS$jekyllpath, PYCL_FOLDERS$input, RCLI_FOLDERS$input,
+# 				STAT_FOLDERS$input), collapse = ' ')
+path <- paste(c(DOC_FOLDERS$input, DOC_FOLDERS$jekyllpath, DOX1_FOLDERS$input, DOX2_FOLDERS$input, KAAL_FOLDERS$input, KAAL_FOLDERS$jekyllpath,
+				PYCL_FOLDERS$input, RCLI_FOLDERS$input, STAT_FOLDERS$input), collapse = ' ')
 
 while (TRUE)
 {

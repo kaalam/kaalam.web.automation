@@ -67,7 +67,7 @@ Never use templates in ways a novice would not understand. Templates should make
 
 ### Macros
 
-Jazz 0.1.+ had the "magical" ALLOC(), REALLOC() and FREE() macros. They co-exist in Jazz 0.2.+ until the original code is fully replaced by the new structure. They are banned in Jazz 0.3.1 and above. Just to clarify: Preprocessor constants are NOT macros (macros have arguments) and are used all over the source code. There is no intention to change that, this is considered excellent practice in C/C++. Preprocessor constants are not typed, so type should always be obvious, just keep it simple.
+Jazz 0.1.+ had the "magical" ALLOC(), REALLOC() and FREE() macros. They co-exist in Jazz 0.2.+ until the original code is fully replaced by the new structure. They are banned in Jazz 0.3.1 and above. **Just to clarify: Preprocessor constants are NOT macros** (macros have arguments) and are used all over the source code. There is no intention to change that, this is considered excellent practice in C/C++. Preprocessor constants are not typed, so type should always be obvious, just keep it simple.
 
 
 ### Operator Overloading

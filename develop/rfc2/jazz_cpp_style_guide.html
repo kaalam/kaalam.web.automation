@@ -90,6 +90,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -126,7 +129,7 @@ $(document).ready(function () {
 <p>We fork Google C++ style guide with some divergent rules, detailed in this document. For anything else, use Google’s style guide as reference. Reference <a href="https://google.github.io/styleguide/cppguide.html" class="uri">https://google.github.io/styleguide/cppguide.html</a></p>
 <div id="swdwgad-principle" class="section level3">
 <h3>SWDWGAD principle</h3>
-<p>“Since when don’t we give a damn?” (SWDWGAD) is a sensation one may have looking at some codebases. Well, in Jazz we do give a damn, we expect the code to be running 30 years from now. We understand some coders get mad when someone else fixes formatting or spelling issues. Some very talented people don’t need order, others do. We want to include everyone here. So please, have a thick skin when your code gets fixed on what you consider “silly” issues, and above all: never make it personal. Also, ugly code acts like an implicit permission to do ugly things with it. That only gets worse with time.</p>
+<p>“Since when don’t we give a damn?” (SWDWGAD) is a sensation one may have looking at some code bases. Well, in Jazz we do give a damn, we expect the code to be running 30 years from now. We understand some coders get mad when someone else fixes formatting or spelling issues. Some very talented people don’t need order, others do. We want to include everyone here. So please, have a thick skin when your code gets fixed on what you consider “silly” issues, and above all: never make it personal. Also, ugly code acts like an implicit permission to do ugly things with it. That only gets worse with time.</p>
 </div>
 <div id="consistency-first" class="section level3">
 <h3>Consistency first</h3>
@@ -176,7 +179,7 @@ $(document).ready(function () {
 </div>
 <div id="macros" class="section level3">
 <h3>Macros</h3>
-<p>Jazz 0.1.+ had the “magical” ALLOC(), REALLOC() and FREE() macros. They co-exist in Jazz 0.2.+ until the original code is fully replaced by the new structure. They are banned in Jazz 0.3.1 and above.</p>
+<p>Jazz 0.1.+ had the “magical” ALLOC(), REALLOC() and FREE() macros. They co-exist in Jazz 0.2.+ until the original code is fully replaced by the new structure. They are banned in Jazz 0.3.1 and above. <strong>Just to clarify: Preprocessor constants are NOT macros</strong> (macros have arguments) and are used all over the source code. There is no intention to change that, this is considered excellent practice in C/C++. Preprocessor constants are not typed, so type should always be obvious, just keep it simple.</p>
 </div>
 <div id="operator-overloading" class="section level3">
 <h3>Operator Overloading</h3>
@@ -191,7 +194,7 @@ $(document).ready(function () {
 <li>Place a function’s variables in the narrowest scope possible, and initialize variables in the declaration.</li>
 <li>Specify noexcept when it is useful and correct. (Typically, for the server.)</li>
 <li>Use nullptr instead of NULL.</li>
-<li>Prefer sizeof(varname) to sizeof(type).</li>
+<li>Prefer sizeof(var name) to sizeof(type).</li>
 <li>Avoid abbreviation.</li>
 <li>Filenames should be all lowercase and can include underscores.</li>
 <li>Type names start with a capital letter and have a capital letter for each new word, with no underscores.</li>

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm jekyll_documentation/_config.yml
+rm -rf jekyll_documentation/_config.yml
 rm -rf jekyll_documentation/_posts/
 rm -rf jekyll_documentation/_data/
 rm -rf jekyll_documentation/images/
@@ -14,7 +14,7 @@ rm -rf jekyll_documentation/pages/
 # rm -rf jekyll_evento/about.md
 
 rm -rf jekyll_forty/.sass-cache/
-rm jekyll_forty/Gemfile.lock
+rm -rf jekyll_forty/Gemfile.lock
 rm -rf jekyll_forty/_posts/
 rm -rf jekyll_forty/_config.yml
 rm -rf jekyll_forty/index.md

@@ -115,7 +115,7 @@ most_recent_uploaded <- function(web_source)
 	src <- '_upl_dates_'
 	if (!(src %in% list_sources())) return (as.POSIXlt('1900-01-02'))
 
-	err <- try(date <- get_R_block(src, web_source), silent = TRUE)
+	err <- try(date <- rawToChar(get_raw_block(src, web_source)), silent = TRUE)
 
 	if (class(err) == 'try-error') return (as.POSIXlt('1900-01-02'))
 
@@ -127,7 +127,7 @@ touch <- function(web_source)
 	src <- '_upl_dates_'
 	if (!(src %in% list_sources())) create_source(src)
 
-	put_R_block(source = src, block_key = web_source, sexp = format(Sys.time(), format = '%Y-%m-%d %H:%M:%S'))
+	put_raw_block(source = src, block_key = web_source, block_val = format(Sys.time(), format = '%Y-%m-%d %H:%M:%S'))
 }
 
 nothing_to_build <- function(folders, extra_input_path = NULL)

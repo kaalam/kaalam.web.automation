@@ -1,5 +1,6 @@
 #!/bin/bash
 
+rm -rf jekyll_documentation/Gemfile.lock
 rm -rf jekyll_documentation/_config.yml
 rm -rf jekyll_documentation/_posts/
 rm -rf jekyll_documentation/_data/

@@ -24,11 +24,6 @@ KAAL_FOLDERS <- list(input		= '../document.source/kaalam',
 					 jekyllpath	= './jekyll_forty',
 					 web_source	= '_kaal_')
 
-PYCL_FOLDERS <- list(input		= '../Jazz/py_package/html/',
-					 excluderex = '.*(*.md)$',
-					 output		= '../kaalam.github.io/pyjazz',
-					 web_source	= '_pycli_')
-
 RCLI_FOLDERS <- list(input		= '../Jazz/r_package/rjazz/docs/',
 					 excluderex = '.*(/pkgdown.yml)$',
 					 output		= '../kaalam.github.io/rjazz',
@@ -51,7 +46,7 @@ STAT_FOLDERS <- list(input		= './develop',
 # 					 jekyllpath	= './jekyll_evento',
 # 					 web_source	= '_news_')
 
-ALL_FOLDERS <- list(DOC_FOLDERS, DOX1_FOLDERS, DOX2_FOLDERS, KAAL_FOLDERS, PYCL_FOLDERS, RCLI_FOLDERS, STAT_FOLDERS)
+ALL_FOLDERS <- list(DOC_FOLDERS, DOX1_FOLDERS, DOX2_FOLDERS, KAAL_FOLDERS, RCLI_FOLDERS, STAT_FOLDERS)
 
 
 library(rjazz)

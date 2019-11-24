@@ -42,7 +42,7 @@ Use more than one consecutive spaces (besides indenting) to improve readability 
 
 ### Comments
 
-Think doxy! You are creating a doxygen page, never forget that. Check doxygen's doc when in doubt.
+Think doxy! You are creating a doxygen page, never forget that. Check doxygen doc when in doubt.
 
 
 ### TODOs

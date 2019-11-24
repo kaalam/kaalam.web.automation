@@ -35,7 +35,7 @@ Also running: ./build_upload.R will build and upload the content into a local Ja
 
 ## License
 
-  For all third party software (too long to list) the original license applies. Everything is FOSS.
+  For all third party software (too long to list) the original license applies. Everything is OSS.
 
   For the automation parts:
 

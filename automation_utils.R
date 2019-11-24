@@ -30,7 +30,7 @@ RCLI_FOLDERS <- list(input		= '../Jazz/r_package/rjazz/docs/',
 					 web_source	= '_rcli_')
 
 STAT_FOLDERS <- list(input		= './develop',
-					 excluderex = '.*(index.md|jazz_cpp_style_guide.md)$',
+					 excluderex = '.*\\.md$',
 					 output		= '../kaalam.github.io/develop',
 					 web_source	= '_stat_')
 

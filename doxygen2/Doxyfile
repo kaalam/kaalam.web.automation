@@ -4,7 +4,7 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = "Jazz 0.2+"
+PROJECT_NAME           = "Jazz 0.4+"
 PROJECT_NUMBER         =
 PROJECT_BRIEF          =
 PROJECT_LOGO           = ../images/jazz_logo_xparent.png

@@ -11,7 +11,7 @@ This is just a set of scripts to create the kaalam.ai static website. There is a
 
 This is a set of R scripts using different static web creation technologies, mainly jekyll, doxygen and R to create the pages, rjazz and Jazz 0.1.07 to visualize and test them and Rscript to automate the process.
 
-It is basically a hack to cover a first website with minimal investment in web technologies while we focus on C++ development of Jazz 0.2++
+It is basically a hack to cover a first website with minimal investment in web technologies while we focus on C++ development of Jazz 0.4+
 
 There is no support, guarantee of stability or documentation other than this file and the scripts themselves.
 

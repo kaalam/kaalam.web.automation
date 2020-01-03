@@ -37,13 +37,36 @@ Also running: ./build_upload.R will build and upload the content into a local Ja
 
   For all third party software (too long to list) the original license applies. Everything is OSS.
 
+  For the automation scripts, http://www.apache.org/licenses/LICENSE-2.0
+
+  The documents can be found in [here](https://github.com/kaalam/document.source) and the following applies to them:
+
+### The original documentation of the Jazz 0.1.07 server and client:
+
+  Copyright 2016-2017 Banco Bilbao Vizcaya Argentaria, S.A.
+
+This product includes software developed at
+
+BBVA (https://www.bbva.com/)
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+
+### New documentation of the Jazz 0.2.x, 0.3.x (deprecated) and 0.4+ server and client:
+
+  (c) 2018-2020 The Authors of Jazz
+
+  available under GNU Simpler Free Documentation License http://gplv3.fsf.org/sfdl-dd1.txt
+
+
+### Kaalam website and blog:
+
+  (c) 2018-2020 kaalam.ai
+
+  available under GNU Simpler Free Documentation License http://gplv3.fsf.org/sfdl-dd1.txt
   For the automation parts:
-
-  This software may have been copy/pasted from some of our projects, in that case we recommend to use the supported project rather than this hack, otherwise, don't even mention the author.
-
-  ... and, of course:
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ## Support/contributing ...

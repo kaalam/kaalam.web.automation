@@ -1,12 +1,12 @@
 #!/bin/bash
 
-rm -rf jekyll_documentation/Gemfile.lock
-rm -rf jekyll_documentation/_config.yml
-rm -rf jekyll_documentation/_posts/
-rm -rf jekyll_documentation/_data/
-rm -rf jekyll_documentation/images/
-rm -rf jekyll_documentation/index.md
-rm -rf jekyll_documentation/pages/
+rm -rf jekyll_reference/Gemfile.lock
+rm -rf jekyll_reference/_config.yml
+rm -rf jekyll_reference/_posts/
+rm -rf jekyll_reference/_data/
+rm -rf jekyll_reference/images/
+rm -rf jekyll_reference/index.md
+rm -rf jekyll_reference/pages/
 
 # rm -rf jekyll_evento/.sass-cache/
 # rm jekyll_evento/_config.yml

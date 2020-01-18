@@ -4,7 +4,7 @@
 DOC_FOLDERS	 <- list(input		= '../document.source/jazz_reference',
 					 excluderex = '.*(createtag|Gemfile.*|licenses/LICENSE|favicon.ico)$',
 					 output		= '../kaalam.github.io/jazz_reference',
-					 jekyllpath	= './jekyll_documentation',
+					 jekyllpath	= './jekyll_reference',
 					 web_source	= '_doc_')
 
 DOX1_FOLDERS <- list(input		= '../jazz-server/src',
@@ -281,32 +281,32 @@ build_copy <- function(folders, force = FALSE)
 
 	fn  <- list.files(path = folders$input, full.names = TRUE, recursive = TRUE)
 	rex <- '^(.*)/([^/]+\\.)md$'
-	
+
 	ix <- which(grepl(rex, fn))
-	
+
 	if (length(ix) > 1) {
 		cat(' ... building html files from markdown\n')
-		
+
 		for (i in ix) {
 			ifn <- fn[i]
 			ofn <- gsub(rex, '\\1/\\2html', ifn)
 			txt <- gsub(rex, './\\2txt', ifn)
-			
+
 			cat ('Converting', ifn, 'to', ofn, '...')
-			
+
 			knitr::knit2html(ifn, ofn)
-			
+
 			cat ('Cleaning', txt, '...')
-			
+
 			unlink(txt)
-			
+
 			cat(' ok\n')
 		}
 		cat('Building:', folders$output)
 	}
 
 	cat(' ...')
-	
+
 	system(paste0('cp -r ', normalizePath(folders$input), '/* ', normalizePath(folders$output), '/'), intern = TRUE)
 
 	if (!is.null(folders$excluderex))

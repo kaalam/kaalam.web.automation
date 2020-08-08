@@ -11,7 +11,7 @@ We keep the original development documents and code under Jazz 0.1.7 (deprecated
 
  - [Jazz C++ Style Guide](rfc2/jazz_cpp_style_guide.html)
  - [On compiling from source](../jazz_reference/using_compile_jazz.html)
- - [On the REST API](../jazz_reference/reference_api_top.html)
+ - [On the REST API](../jazz_reference/api_ref_intro.html)
  - [On LMDB usage](rfc2/lmdb.html)
  - [On testing](rfc2/testing.html)
 

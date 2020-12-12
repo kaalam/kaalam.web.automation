@@ -15,9 +15,9 @@ We keep the original development documents and code under Jazz 0.1.7 (deprecated
  - [On LMDB usage](rfc2/lmdb.html)
  - [On testing](rfc2/testing.html)
 
-## The Jazz Server Jazz 0.4+
+## The Jazz Server Jazz 0.5+
 
- - [Jazz server 0.4+ programming documentation](../develop_jazz02/index.html)
+ - [Jazz server 0.5+ programming documentation](../develop_jazz02/index.html)
 
 ## Requests For Comments (RFC) Jazz 0.1.7 (deprecated)
 

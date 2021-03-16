@@ -250,7 +250,7 @@ build_jekyll <- function(folders, force = FALSE, no_bundle = FALSE)
 	prev_wd <- setwd(jekyll)
 
 	if (no_bundle) system('jekyll build')
-	else		   system('bundle exec jekyll build')
+	else		   system('RUBYOPT="-W0" bundle exec jekyll build')
 
 	system(paste0('rm -rf ', output, '/'))
 	system(paste0('mv _site ', output))

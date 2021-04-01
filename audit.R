@@ -4,12 +4,12 @@
 source('automation_utils.R')
 
 
-BITMAP_EXTENSIONS  <- c('jpg', 'png')
+BITMAP_EXTENSIONS  <- c('jpg', 'png', 'ico')
 STATIC_EXTENSIONS  <- c('css', 'html', 'js')
 FONTS_EXTENSIONS   <- c('eot', 'otf', 'svg', 'ttf', 'woff', 'woff2')
-CRAP_EXTENSIONS	   <- c('htc', 'ico', 'json', 'psd', 'scss', 'txt', 'xml')
+OTHER_EXTENSIONS   <- c('htc', 'json', 'scss', 'txt', 'xml')
 
-KNOWN_EXTENSIONS   <- c(BITMAP_EXTENSIONS, STATIC_EXTENSIONS, FONTS_EXTENSIONS, CRAP_EXTENSIONS)
+KNOWN_EXTENSIONS   <- c(BITMAP_EXTENSIONS, STATIC_EXTENSIONS, FONTS_EXTENSIONS, OTHER_EXTENSIONS)
 
 PATH_KNOWN_BITMAPS <- '~/kaalam.etc/web_security/known_bitmaps'
 PATH_KNOWN_FONTS   <- '~/kaalam.etc/web_security/known_fonts'
@@ -276,7 +276,7 @@ audit_file <- function(fn, web_source)
 	if (ext %in% STATIC_EXTENSIONS) audit_static(fn, ext, web_source)
 	if (ext %in% FONTS_EXTENSIONS)	audit_font	(fn, web_source)
 
-	if (ext %in% CRAP_EXTENSIONS & !SKIP_CRAP_CHECK) warning (level = 'WARN', source = web_source, issue = paste('Crap file', fn))
+	if (ext %in% OTHER_EXTENSIONS & !SKIP_CRAP_CHECK) warning (level = 'WARN', source = web_source, issue = paste('Crap file', fn))
 }
 
 

@@ -18,7 +18,7 @@ PATH_KNOWN_URL	   <- '~/kaalam.etc/web_security/known_urls.txt'
 PATH_KNOWN_DOMAINS <- '~/kaalam.etc/web_security/known_domains.txt'
 PATH_BLACKLISTED   <- '~/kaalam.etc/web_security/blacklisted_words.txt'
 
-REX_PAT_NAM_EXT <- '^(.*/)([[:alnum:]_.-]+)\\.([[:alnum:]]+)$'
+REX_PAT_NAM_EXT <- '^(.*/)([[:alnum:]_~\\.\\-]+)\\.([[:alnum:]]+)$'
 
 hashed_folder <- function(hash, name, type, found) data.frame(hash = hash, name = name, type = type, found = found, stringsAsFactors = FALSE)
 warn_event	  <- function(level, source, issue) data.frame(level = level, source = source, issue = issue, stringsAsFactors = FALSE)

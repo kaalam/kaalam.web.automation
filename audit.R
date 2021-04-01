@@ -69,7 +69,7 @@ load_globals <- function()
 }
 
 
-nice <- function(s, max_len = 40)
+nice <- function(s, max_len = 60)
 {
 	if (nchar(s) <= max_len) return (s)
 

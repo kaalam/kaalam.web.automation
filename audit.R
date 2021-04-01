@@ -252,6 +252,8 @@ audit_static <- function(fn, ext, web_source)
 
 audit_file <- function(fn, web_source)
 {
+	# cat(sprintf('audit_file(fn:%s, web_source:%s)\n', fn, web_source))
+
 	if (!grepl(REX_PAT_NAM_EXT, fn)) stop(paste('Unexpected file format', fn))
 
 	ext <- gsub(REX_PAT_NAM_EXT, '\\3', fn)

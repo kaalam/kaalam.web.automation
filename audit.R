@@ -77,18 +77,32 @@ nice <- function(s, max_len = 60)
 }
 
 
+all_urls_domain <- data.frame(url = character(0), domain = character(0), stringsAsFactors = FALSE)
+
 valid_url <- function(url)
 {
-	if (url %in% GLOBAL$known_urls)       return (TRUE)
-	if (nice(url) %in% GLOBAL$known_urls) return (TRUE)
+	url <- nice(url)
+
+	if (url %in% GLOBAL$known_urls) return (TRUE)
 
 	if (grepl('^[./]*[[:alnum:]/_-]+\\.(png|jpg)$', url)) return (TRUE)
 
 	rex <- '^([^/]+)/(.*)$'
 
-	if (grepl(rex, url)) url <- gsub(rex, '\\1', url)
+	domain <- '?'
+	if (grepl(rex, url)) {
+		domain <- gsub(rex, '\\1', url)
 
-	url %in% GLOBAL$known_domains
+		if (domain %in% GLOBAL$known_domains) return (TRUE)
+	}
+
+	if (!(url %in% all_urls_domain$url)) {
+		urls_domain <- data.frame(url = url, domain = domain, stringsAsFactors = FALSE)
+
+		all_urls_domain <<- rbind(all_urls_domain, urls_domain)
+	}
+
+	FALSE
 }
 
 

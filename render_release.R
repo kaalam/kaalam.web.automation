@@ -4,7 +4,7 @@ source('automation_utils.R')
 
 build_all()
 
-writeLines('<html><head><meta http-equiv="refresh" content="1; url=kaalam.github.io/kaalam/index.html"></head></html>',
+writeLines('<html><head><meta http-equiv="refresh" content="0; url=https://kaalam.github.io/kaalam/index.html"></head></html>',
 		   '../kaalam.github.io/index.html')
 
 setwd('../kaalam.github.io/')

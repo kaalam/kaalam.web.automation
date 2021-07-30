@@ -340,6 +340,8 @@ audit <- function(folders)
 
 doit <- function()
 {
+	failed <- TRUE
+	
 	invisible(sapply(ALL_FOLDERS, audit))
 
 	err <- try(sx <- gsub('^.*columns[[:blank:]]*([0-9]+)[[:blank:]]*;.*$', '\\1', system('stty -a | head -1', intern = T)), silent = TRUE)
@@ -351,6 +353,8 @@ doit <- function()
 	cat('\n')
 
 	if (nrow(GLOBAL$warnings) == 0) {
+		failed <- FALSE
+		
 		cat('No errors, no warnings.\n')
 	} else{
 		ix <- order(GLOBAL$warnings$level, GLOBAL$warnings$source, GLOBAL$warnings$issue)
@@ -364,6 +368,11 @@ doit <- function()
 	} else{
 		ix <- order(GLOBAL$stats$files, GLOBAL$stats$type, decreasing = c(T, F), method = 'radix')
 		print(colnames_toupper(GLOBAL$stats[ix, ]))
+	}
+	
+	if (failed)	{
+		cat('\n')
+		stop('Audit had issues, automatic pushing skipped')
 	}
 }
 

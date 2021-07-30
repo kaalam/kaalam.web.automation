@@ -254,8 +254,29 @@ audit_font <- function(fn, web_source)
 }
 
 
+remove_hidden_shit <- function(fn) 
+{
+	fn  <- normalizePath(fn)
+	txt <- readLines(fn, warn = FALSE)
+	rex <- '\xe2\x80\x8b'
+	
+	ix <- which(grepl(rex, txt))
+	
+	if (length(ix) == 0) 
+		return (invisible())
+	
+	txt[ix] <- gsub(rex, '', txt[ix])
+		
+	warning (level = 'NOTE', source = nice(fn), issue = 'Removed hidden shit')
+	
+	writeLines(txt, fn)
+}
+
+
 audit_static <- function(fn, ext, web_source)
 {
+	remove_hidden_shit(fn)
+	
 	if (ext == 'js')   return (audit_js	(fn, web_source))
 	if (ext == 'css')  return (audit_css (fn, web_source))
 	if (ext == 'html') return (audit_html(fn, web_source))

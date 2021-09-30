@@ -7,11 +7,6 @@ DOC_FOLDERS	 <- list(input		= '../document.source/jazz_reference',
 					 jekyllpath	= './jekyll_reference',
 					 web_source	= '_doc_')
 
-DOX1_FOLDERS <- list(input		= '../jazz-server/src',
-					 output		= '../kaalam.github.io/develop_jazz01',
-					 doxypath	= './doxygen1',
-					 web_source	= '_doxy1_')
-
 DOX2_FOLDERS <- list(input		= '../Jazz/server/src',
 					 output		= '../kaalam.github.io/develop_jazz02',
 					 doxypath	= './doxygen2',
@@ -46,7 +41,7 @@ STAT_FOLDERS <- list(input		= './develop',
 # 					 jekyllpath	= './jekyll_evento',
 # 					 web_source	= '_news_')
 
-ALL_FOLDERS <- list(DOC_FOLDERS, DOX1_FOLDERS, DOX2_FOLDERS, KAAL_FOLDERS, RCLI_FOLDERS, STAT_FOLDERS)
+ALL_FOLDERS <- list(DOC_FOLDERS, DOX2_FOLDERS, KAAL_FOLDERS, RCLI_FOLDERS, STAT_FOLDERS)
 
 
 library(rjazz)
@@ -327,7 +322,6 @@ build_all <- function()
 {
 	# build_jekyll(BLOG_FOLDERS)
 	build_jekyll(DOC_FOLDERS)
-	build_doxygen(DOX1_FOLDERS)
 	build_doxygen(DOX2_FOLDERS)
 	build_jekyll(KAAL_FOLDERS)
 	# build_jekyll(NEWS_FOLDERS, no_bundle = TRUE)

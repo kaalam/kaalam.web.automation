@@ -10,7 +10,7 @@ We fork Google C++ style guide with some divergent rules, detailed in this docum
 
 ### Consistency first
 
-These rules do not apply to files that are completely imported from other projects or contributions of complete files. In those cases, consistency with pre-existing formatting prevails.
+These rules do not apply to files that are completely imported from other projects or contributions of complete files (especially, LMDB and Catch2!). In those cases, consistency with pre-existing formatting prevails.
 
 
 ### Line length, tab size and encoding
@@ -27,12 +27,12 @@ English only, for everything: comments, UI, naming, ... Avoid the use of non ASC
 
 ### Use of space
 
-Never before a comma, always after a comma except when another comma follows. Always before and after arithmetic and logic operators, except arithmetic * and / and all pointer operators. Never immediately inside parentheses except for alignment. Always outside parameters near primitives if, while, for, etc. In function calls and definitions, space is optional.
+Never before a comma, always after a comma except when another comma follows. Always before and after arithmetic and logic operators, except arithmetic * and / and only before pointer operators. Never immediately inside parentheses except for alignment. Always outside parameters near primitives if, while, for, etc. In function calls and definitions, space is just for alignment.
 
 
 ### Use of vertical space
 
-Two blank lines before a method's documentation. No space between the doc and the body or at the beginning or the end. One line space each time you separate functional blocks. There is no clear definition of "functional block". (Something like "a higher level concept" that translates into more than one line of c++.)
+Two blank lines before a method's documentation. No space between the doc and the body or at the beginning or the end. One line space each time you separate blocks. There is no definition of "block", just similar things make the same block for readability.
 
 
 ### Use of vertical alignment
@@ -62,7 +62,7 @@ The only acceptable exception type is **int**. The only acceptable values are:
 
 ### Templates
 
-Never use templates in ways a novice would not understand. Templates should make things simpler. Or not at all, that's okay too.
+Never use templates if they don't make expressions cleaner. Templates in stdlib containers are amazing, there is not much need of them in Jazz.
 
 
 ### Macros

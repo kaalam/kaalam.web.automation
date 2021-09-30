@@ -2,7 +2,24 @@
 <body>
 <pre>
 
-	THIS IS A DRAFT  -  Jazz 0.4+ uses Catch2
+    IMPORTANT NOTE: Running the test servers!
+    ===============--------------------------
+
+    When you "make tjazz" and run it using ./tjazz, the tests expect both zeroMQ and http test servers running.
+
+    The servers are in the folder Jazz/server/test_servers/
+
+    There are three servers:
+
+      ./serve_a2m.py
+      ./serve_alpha.py
+      ./serve_htm.py
+
+    They are simple python 3 scripts. You can pip install anything required (flask and zmq). You have to keep the three scripts running.
+
+
+    Jazz 0.5+ uses Catch2
+    =====================
 
 
     IMPORTANT NOTE: The single file header version of Catch is PATCHED !!

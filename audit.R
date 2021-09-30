@@ -132,8 +132,10 @@ extract_capture <- function(txt, capture, fn, web_source)
 	ix <- which(!grepl(capture$capture, txt))
 
 	for (tx in txt[ix]) {
-		if (!grepl(capture$except, nice(tx)))
-			warning (level = 'WARN', source = web_source, issue = paste('Cannot capture in', nice(tx), 'in', nice(fn)))
+		if (!grepl(capture$except, nice(tx))) {
+			if (!(nice(tx) %in% GLOBAL$known_urls))
+				warning (level = 'WARN', source = web_source, issue = paste('Cannot capture in', nice(tx), 'in', nice(fn)))
+		}
 	}
 
 	ix <- which(grepl(capture$capture, txt))

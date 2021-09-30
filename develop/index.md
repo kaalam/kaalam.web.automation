@@ -36,4 +36,5 @@ We keep the original development documents and code under Jazz 0.1.7 (deprecated
  - [LMDB - Lightning Memory-Mapped Database Manager](http://www.lmdb.tech/doc/)
  - [MHD - GNU libmicrohttpd](https://www.gnu.org/software/libmicrohttpd/manual/libmicrohttpd.html)
  - [CURL - libcurl programming tutorial](https://curl.haxx.se/libcurl/c/libcurl-tutorial.html)
+ - [ZeroMQ - An open-source universal messaging library](https://zeromq.org/languages/c/)
  - [Catch 2! ](https://github.com/catchorg/Catch2/blob/master/docs/Readme.md#top)

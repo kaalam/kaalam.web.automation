@@ -9,17 +9,16 @@ This is just a set of scripts to create the kaalam.ai static website. There is a
 
 ## How does it work?
 
-This is a set of R scripts using different static web creation technologies, mainly jekyll, doxygen and R to create the pages, rjazz and Jazz 0.1.07 to visualize and test them and Rscript to automate the process.
+This is a set of R scripts using different static web creation technologies, mainly jekyll, doxygen and R to create the pages, test them and upload them.
 
-It is basically a hack to cover a first website with minimal investment in web technologies while we focus on C++ development of Jazz 0.4+
+It is basically a hack to cover a first website with minimal investment in web technologies while we focus on C++ development of Jazz 0.6+
 
 There is no support, guarantee of stability or documentation other than this file and the scripts themselves.
 
 The scripts expect to be run from a folder structure including the repositories with their original names in a common folder:
 
+  - Jazz/
   - document.source/
-  - jazz-client/
-  - jazz-server/
   - kaalam.github.io/
   - kaalam.web.automation/
 
@@ -54,7 +53,7 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 http://www.apache.org/licenses/LICENSE-2.0
 
 
-### New documentation of the Jazz 0.2.x, 0.3.x (deprecated) and 0.4+ server and client:
+### New documentation of any modern Jazz:
 
   (c) 2018-2021 The Authors of Jazz
 

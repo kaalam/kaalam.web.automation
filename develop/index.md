@@ -10,7 +10,7 @@ Jazz 0.5+ is code name for anything alive and maintained. After Jazz 0.1.7 was r
 ### Latest and in development:
 
  - Jazz 0.5.1 is the first complete release with all our dreams about jazz_elements implemented, documented and tested.
- - Jazz 0.5.2 is a release in progress with some fixes to contain "The Tangle".
+ - Jazz 0.5.2 is a release in progress with some API enhancements to deploy "The Tangle".
  - Jazz 0.6.1 is the project of developing Bop on a stable mature Jazz that has everything in terms of blocks, containers and communications.
 
 ## Requests For Comments (RFC) Jazz 0.5+

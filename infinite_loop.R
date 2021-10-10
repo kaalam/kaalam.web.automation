@@ -7,7 +7,7 @@ source('automation_utils.R')
 #				DOX2_FOLDERS$input, KAAL_FOLDERS$input, KAAL_FOLDERS$jekyllpath, NEWS_FOLDERS$input, NEWS_FOLDERS$jekyllpath,
 #				RCLI_FOLDERS$input, STAT_FOLDERS$input), collapse = ' ')
 path <- paste(c(DOC_FOLDERS$input, DOC_FOLDERS$jekyllpath, DOX2_FOLDERS$input, KAAL_FOLDERS$input,
-				KAAL_FOLDERS$jekyllpath, RCLI_FOLDERS$input, STAT_FOLDERS$input), collapse = ' ')
+				KAAL_FOLDERS$jekyllpath, STAT_FOLDERS$input), collapse = ' ')
 
 while (TRUE)
 {

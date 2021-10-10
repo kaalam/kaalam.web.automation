@@ -19,11 +19,6 @@ KAAL_FOLDERS <- list(input		= '../document.source/kaalam',
 					 jekyllpath	= './jekyll_forty',
 					 web_source	= '_kaal_')
 
-RCLI_FOLDERS <- list(input		= '../Jazz/r_package/rjazz/docs/',
-					 excluderex = '.*(/pkgdown.yml)$',
-					 output		= '../kaalam.github.io/rjazz',
-					 web_source	= '_rcli_')
-
 STAT_FOLDERS <- list(input		= './develop',
 					 excluderex = '.*\\.md$',
 					 output		= '../kaalam.github.io/develop',
@@ -41,7 +36,7 @@ STAT_FOLDERS <- list(input		= './develop',
 # 					 jekyllpath	= './jekyll_evento',
 # 					 web_source	= '_news_')
 
-ALL_FOLDERS <- list(DOC_FOLDERS, DOX2_FOLDERS, KAAL_FOLDERS, RCLI_FOLDERS, STAT_FOLDERS)
+ALL_FOLDERS <- list(DOC_FOLDERS, DOX2_FOLDERS, KAAL_FOLDERS, STAT_FOLDERS)
 
 
 library(rjazz)
@@ -325,7 +320,6 @@ build_all <- function()
 	build_doxygen(DOX2_FOLDERS)
 	build_jekyll(KAAL_FOLDERS)
 	# build_jekyll(NEWS_FOLDERS, no_bundle = TRUE)
-	build_copy(RCLI_FOLDERS)
 	build_copy(STAT_FOLDERS)
 }
 

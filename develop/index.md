@@ -19,6 +19,7 @@ Jazz 0.5+ is code name for anything alive and maintained. After Jazz 0.1.7 was r
  - [On compiling from source](../jazz_reference/using_compile_jazz.html)
  - [On the REST API](../jazz_reference/api_ref_intro.html)
  - [On testing](rfc2/testing.html)
+ - [On the Jazz Actor model (multithreading reference)](rfc2/jazz_actor_model.html)
 
 ## The Jazz Server Jazz 0.5+
 

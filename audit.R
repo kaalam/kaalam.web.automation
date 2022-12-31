@@ -29,9 +29,12 @@ extract_http <- list(signal = '\\<https?://', neat = 'http://', capture = '^.*\\
 
 GLOBAL <- new.env()
 
+COPY_BITMAPS <- FALSE
+COPY_JS		 <- FALSE
+COPY_FONTS	 <- FALSE
 
-load_globals <- function()
-{
+
+load_globals <- function() {
 	hash_folder <- function(pat)
 	{
 		fn <- list.files(path = pat, full.names = TRUE, recursive = TRUE)
@@ -69,8 +72,7 @@ load_globals <- function()
 }
 
 
-nice <- function(s, max_len = 60)
-{
+nice <- function(s, max_len = 60) {
 	if (nchar(s) <= max_len) return (s)
 
 	paste0('(..) ', substr(s, nchar(s) - max_len + 6, nchar(s)))
@@ -79,8 +81,7 @@ nice <- function(s, max_len = 60)
 
 all_urls_domain <- data.frame(url = character(0), domain = character(0), stringsAsFactors = FALSE)
 
-valid_url <- function(url)
-{
+valid_url <- function(url) {
 	url <- nice(url)
 
 	if (url %in% GLOBAL$known_urls) return (TRUE)
@@ -106,14 +107,12 @@ valid_url <- function(url)
 }
 
 
-warning <- function(level, source, issue)
-{
+warning <- function(level, source, issue) {
 	GLOBAL$warnings <- rbind(GLOBAL$warnings, warn_event(level, source, issue))
 }
 
 
-extract_capture <- function(txt, capture, fn, web_source)
-{
+extract_capture <- function(txt, capture, fn, web_source) {
 	ix <- which(grepl(capture$signal, txt))
 
 	if (length(ix) == 0) return (character(0))
@@ -146,8 +145,7 @@ extract_capture <- function(txt, capture, fn, web_source)
 }
 
 
-audit_css <- function(fn, web_source)
-{
+audit_css <- function(fn, web_source) {
 	txt <- readLines(fn, warn = FALSE)
 
 	if (!SKIP_EXTRACT_URL_CSS)
@@ -170,8 +168,7 @@ audit_css <- function(fn, web_source)
 }
 
 
-audit_html <- function(fn, web_source)
-{
+audit_html <- function(fn, web_source) {
 	txt <- readLines(fn, warn = FALSE)
 
 	if (!SKIP_EXTRACT_HTTP_HTML)
@@ -199,9 +196,9 @@ audit_html <- function(fn, web_source)
 }
 
 
-audit_bitmap <- function(fn, web_source)
-{
-	# system(paste0('cp ', fn, ' ', PATH_KNOWN_BITMAPS, '/'))
+audit_bitmap <- function(fn, web_source) {
+
+	if (COPY_BITMAPS) system(paste0('cp ', fn, ' ', PATH_KNOWN_BITMAPS, '/'))
 
 	fn	 <- normalizePath(fn)
 	hash <- digest::digest(fn, file = TRUE)
@@ -218,9 +215,12 @@ audit_bitmap <- function(fn, web_source)
 }
 
 
-audit_js <- function(fn, web_source)
-{
-	# system(paste0('cp ', fn, ' ', PATH_KNOWN_JS, '/', gsub('\\.', '', as.character(runif(1)*9e14)), '.js'))
+audit_js <- function(fn, web_source) {
+
+	if (COPY_JS) {
+		system(paste0('cp ', fn, ' ', PATH_KNOWN_JS, '/', gsub('\\.', '', as.character(runif(1)*9e14)), '.js'))
+		system(paste0('fdupes -d -N ', PATH_KNOWN_JS))
+	}
 
 	fn	 <- normalizePath(fn)
 	hash <- digest::digest(fn, file = TRUE)
@@ -237,9 +237,12 @@ audit_js <- function(fn, web_source)
 }
 
 
-audit_font <- function(fn, web_source)
-{
-	# system(paste0('cp ', fn, ' ', PATH_KNOWN_FONTS, '/', gsub('\\.', '', as.character(runif(1)*9e14)), '.font'))
+audit_font <- function(fn, web_source) {
+
+	if (COPY_FONTS) {
+		system(paste0('cp ', fn, ' ', PATH_KNOWN_FONTS, '/', gsub('\\.', '', as.character(runif(1)*9e14)), '.font'))
+		system(paste0('fdupes -d -N ', PATH_KNOWN_FONTS))
+	}
 
 	fn	 <- normalizePath(fn)
 	hash <- digest::digest(fn, file = TRUE)
@@ -256,8 +259,7 @@ audit_font <- function(fn, web_source)
 }
 
 
-remove_hidden_shit <- function(fn)
-{
+remove_hidden_shit <- function(fn) {
 	fn  <- normalizePath(fn)
 	txt <- readLines(fn, warn = FALSE)
 	rex <- '\xe2\x80\x8b'
@@ -275,8 +277,7 @@ remove_hidden_shit <- function(fn)
 }
 
 
-audit_static <- function(fn, ext, web_source)
-{
+audit_static <- function(fn, ext, web_source) {
 	remove_hidden_shit(fn)
 
 	if (ext == 'js')   return (audit_js	(fn, web_source))
@@ -287,8 +288,8 @@ audit_static <- function(fn, ext, web_source)
 }
 
 
-audit_file <- function(fn, web_source)
-{
+audit_file <- function(fn, web_source) {
+
 	# cat(sprintf('audit_file(fn:%s, web_source:%s)\n', fn, web_source))
 
 	if (!grepl(REX_PAT_NAM_EXT, fn)) stop(paste('Unexpected file format', fn))
@@ -319,8 +320,8 @@ audit_file <- function(fn, web_source)
 }
 
 
-audit <- function(folders)
-{
+audit <- function(folders) {
+
 	if (folders$web_source %in% SKIP_WEB_SOURCES) cat('Skipping:', folders$output, '\n')
 	else {
 		cat('Auditing:', folders$output, '...')
@@ -340,8 +341,8 @@ audit <- function(folders)
 }
 
 
-doit <- function()
-{
+doit <- function() {
+
 	failed <- TRUE
 
 	invisible(sapply(ALL_FOLDERS, audit))
@@ -379,8 +380,8 @@ doit <- function()
 }
 
 
-config <- function()
-{
+config <- function() {
+
 	assign('SKIP_BLACKLISTED_HTML', FALSE, envir = .GlobalEnv)
 	assign('SKIP_CRAP_CHECK',       FALSE, envir = .GlobalEnv)
 
@@ -408,6 +409,16 @@ config <- function()
 	} else cat('No configuration file audit.conf.r found, doing all checks to all web sources.\n\n')
 }
 
+
+args = commandArgs(trailingOnly = TRUE)
+
+if (length(args) > 0) {
+	if (any(!grepl('^copy_[a-z]+$', args))) stop('Usage: ./audit.R copy_bitmaps? copy_js? copy_fonts?')
+
+	COPY_BITMAPS <- any(args == 'copy_bitmaps')
+	COPY_JS		 <- any(args == 'copy_js')
+	COPY_FONTS	 <- any(args == 'copy_fonts')
+}
 
 config()
 load_globals()

@@ -55,14 +55,14 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 ### New documentation of any modern Jazz:
 
-  (c) 2018-2022 The Authors of Jazz
+  (c) 2018-2023 The Authors of Jazz
 
   available under GNU Simpler Free Documentation License http://gplv3.fsf.org/sfdl-dd1.txt
 
 
 ### Kaalam website:
 
-  (c) 2018-2022 kaalam.ai
+  (c) 2018-2023 kaalam.ai
 
   available under GNU Simpler Free Documentation License http://gplv3.fsf.org/sfdl-dd1.txt
   For the automation parts:

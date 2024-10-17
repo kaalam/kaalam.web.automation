@@ -21,6 +21,7 @@ Jazz 1.25.+ is code name for anything alive and maintained. After Jazz 0.1.7 was
  - [On the REST API](../jazz_reference/api_ref_intro.html)
  - [On testing](rfc2/testing.html)
  - [On the Jazz Actor model (multithreading reference)](rfc2/jazz_actor_model.html)
+ - [On the Jazz Services, APIs and instantiation](rfc2/services_apis.html)
 
 ## The Jazz Server Jazz 1.25.+
 

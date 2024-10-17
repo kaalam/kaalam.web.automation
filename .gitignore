@@ -2,6 +2,5 @@
 .Rhistory
 .Ruserdata
 *.Rproj
-develop/index.html
-develop/rfc2/jazz_cpp_style_guide.html
-develop/rfc2/jazz_actor_model.html
+develop/*.html
+develop/rfc2/*.html

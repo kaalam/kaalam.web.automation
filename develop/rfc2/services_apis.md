@@ -97,21 +97,21 @@ access, making parts of it inaccessible, use credentials, tokens, etc. to make a
 
   * **Instantiation**: As mentioned, you will only have one instance of each service. Besides `HttpServer` (which does not require
 special attention since customizing `API` is all you need to create commercial secure servers), every `Service` is a `Container`.
-`APIbase` and `API` are containers since they need to at least momentarily allocate `Block` objects. Containers have a `base_names()`
-mechanism to make `APIbase` descendants see where they are instantiated and call them.
+`BaseAPI` and `API` are containers since they need to at least momentarily allocate `Block` objects. Containers have a `base_names()`
+mechanism to make `BaseAPI` descendants see where they are instantiated and call them.
 
   * **instances.h/instances.cpp  in jazz_main**: Is a little module that instantiates everything (callback functions, Services possibly
 including uplifted ones) and provides a `start_service()`/`stop_service()` mechanism that logs and provides user feedback.
 
 
-## Code execution (and APIbase)
+## Code execution (and BaseAPI)
 
 ```
-Service -> Container -> APIbase -> Core  [Compiles and runs code]
+Service -> Container -> BaseAPI -> Core  [Compiles and runs code]
 ```
 
-Code is executed in the `Core` class. This class descends from `APIbase` which is a `Container`. `Core` implements the `exec()` method.
-It inherits from `APIbase` which provides control over the containers in `jazz_elements`. Everything implemented under `jazz_bebop`:
+Code is executed in the `Core` class. This class descends from `BaseAPI` which is a `Container`. `Core` implements the `exec()` method.
+It inherits from `BaseAPI` which provides control over the containers in `jazz_elements`. Everything implemented under `jazz_bebop`:
 `Space` (a common ancestor of `DataSpace` and `SemSpace`), `OpCodes` (the ONNX language), `Bop` (the compiler), `Snippet` (a `Concept`
 ancestor that contains both the source and the object code) and the core (like a CPU-core, the onnx-runtime) is provided by a single
 service: `Core`.
@@ -122,14 +122,14 @@ You can consider `Core` an `API` that is a wrapper over the onnx-runtime and def
 ## Models are a superior form of code execution
 
 ```
-Service -> Container -> APIbase -> ModelsAPI  [serves Model descendants]
+Service -> Container -> BaseAPI -> ModelsAPI  [serves Model descendants]
                +-----------------> Model      [uses Core to compile and run solutions]
 ```
 
 At the level of `jazz_bebop`, we have a compiler that converts **formal** compilable Bebop code into **formal** object code. In this higher
 level of abstraction (`jazz_models`) we convert **informal** natural language into **formal** compilable Bebop code. This requires a
 `Model`. How a specific model works is beyond the scope of this document. As far as the Jazz server is concerned, a `Model` is just a
-`Service->Container->APIbase` descendant with access to the `Core` to compile, run and evaluate solutions (formal representations to
+`Service->Container->BaseAPI` descendant with access to the `Core` to compile, run and evaluate solutions (formal representations to
 the informal input). We can think of the whole model as a **resolver** vs. a **compiler** that is used in `Core`.
 
 A `ModelsAPI` can be informally seen as a `Core` that executes a higher level language (natural language) that has to be resolved into
@@ -140,13 +140,13 @@ containers have: a base (a part of a locator) identifies the model.
 ## API
 
 ```
-Service -> Container -> APIbase -> API  [Single http entry point aware of all Containers]
+Service -> Container -> BaseAPI -> API  [Single http entry point aware of all Containers]
 ```
 
 So far we have seen:
 
   * [Lowest level] `Container` provides a language to define data as constants and move blocks around containers using locators.
-  * [Level jazz_bebop] `APIbase` provides a language to access any container by base using locators, `Core` provides a language to abstract
+  * [Level jazz_bebop] `BaseAPI` provides a language to access any container by base using locators, `Core` provides a language to abstract
 data, tables and indexing and execute programs.
   * [Level jazz_models] `ModelsAPI` provides a mechanism to resolve natural language into Bebop code.
   * [Now] API Gives unrestricted access to everything to anyone.

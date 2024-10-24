@@ -146,7 +146,8 @@ Service -> Container -> APIbase -> API  [Single http entry point aware of all Co
 So far we have seen:
 
   * [Lowest level] `Container` provides a language to define data as constants and move blocks around containers using locators.
-  * [Level jazz_bebop] `APIbase` provides a language to abstract data, tables and indexing, `Core` provides a language to execute programs.
+  * [Level jazz_bebop] `APIbase` provides a language to access any container by base using locators, `Core` provides a language to abstract
+data, tables and indexing and execute programs.
   * [Level jazz_models] `ModelsAPI` provides a mechanism to resolve natural language into Bebop code.
   * [Now] API Gives unrestricted access to everything to anyone.
   * [Highest level: Uplifted API]: Establishes access restrictions, credentials, tokens, etc.

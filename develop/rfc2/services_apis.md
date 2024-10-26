@@ -110,13 +110,22 @@ including uplifted ones) and provides a `start_service()`/`stop_service()` mecha
 Service -> Container -> BaseAPI -> Core  [Compiles and runs code]
 ```
 
-Code is executed in the `Core` class. This class descends from `BaseAPI` which is a `Container`. `Core` implements the `exec()` method.
-It inherits from `BaseAPI` which provides control over the containers in `jazz_elements`. Everything implemented under `jazz_bebop`:
-`Space` (a common ancestor of `DataSpace` and `SemSpace`), `OpCodes` (the ONNX language), `Bop` (the compiler), `Snippet` (a `Concept`
-ancestor that contains both the source and the object code) and the core (like a CPU-core, the onnx-runtime) is provided by a single
-service: `Core`.
+Code is executed in the `Core` class. This class descends from `BaseAPI` which is a `Container`. `BaseAPI` is also the parent of `API`.
+Simply put, an API is a container. but not permanently allocate data (it there just as long a request is being processed). Also, an API
+can parse requests and route them to the appropriate container.
 
-You can consider `Core` an `API` that is a wrapper over the onnx-runtime and defines the Bop language at compilable level.
+`Core` implements the `exec()` method. It inherits from `BaseAPI` which provides control over the containers in `jazz_elements`.
+
+### The namespace `jazz_bebop` also has:
+
+  * `Space`: A common ancestor of `DataSpace` and `SemSpace`
+  * `OpCodes`: The ONNX language
+  * `Bop`: The compiler and decompiler
+  * `Snippet`: A `Concept` ancestor that contains both the source and the object code
+  * `Core`: (as in a CPU-core) a wrapper around the onnx-runtime the manages data objects, sessions and other onnx-runtime details
+
+You can consider Bebop (Bop) a language with two "flavors": a **formal** one that can be compiled and is defined by everything in this
+namespace and an **informal** natural language that is converted into compilable code by a `Model` in `jazz_models`.
 
 
 ## Models are a superior form of code execution
@@ -134,7 +143,7 @@ the informal input). We can think of the whole model as a **resolver** vs. a **c
 
 A `ModelsAPI` can be informally seen as a `Core` that executes a higher level language (natural language) that has to be resolved into
 Bebop that can be compiled and executed by the `Core`. A single service serves multiple models using the same mechanism the other
-containers have: a base (a part of a locator) identifies the model.
+containers have: a base (a part of a locator) that identifies the model.
 
 
 ## API
@@ -147,7 +156,7 @@ So far we have seen:
 
   * [Lowest level] `Container` provides a language to define data as constants and move blocks around containers using locators.
   * [Level jazz_bebop] `BaseAPI` provides a language to access any container by base using locators, `Core` provides a language to abstract
-data, tables and indexing and execute programs.
+data, tables, indexing and execute programs.
   * [Level jazz_models] `ModelsAPI` provides a mechanism to resolve natural language into Bebop code.
   * [Now] API Gives unrestricted access to everything to anyone.
   * [Highest level: Uplifted API]: Establishes access restrictions, credentials, tokens, etc.

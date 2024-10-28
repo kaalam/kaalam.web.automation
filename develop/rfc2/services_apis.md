@@ -104,25 +104,37 @@ mechanism to make `BaseAPI` descendants see where they are instantiated and call
 including uplifted ones) and provides a `start_service()`/`stop_service()` mechanism that logs and provides user feedback.
 
 
-## Code execution (and BaseAPI)
+## Code execution, BaseAPI, Space, DataSpace, OpCodes, Bop, Snippet, Core
 
 ```
-Service -> Container -> BaseAPI -> Core  [Compiles and runs code]
+Service ----------> OpCodes           [ONNX language]
+   +--------------> Bop               [Compiler and decompiler]
+   +--------------> Snippet           [Code snippet, parent of Concept]
+   +-> Container -> Space             [Parent of DataSpace and SemSpace]
+           |          +---> DataSpace [Abstracts tables and indexing]
+           +------> BaseAPI           [Manages petitions to Containers]
+                       +--> Core      [Compiles, runs code and serves]
 ```
+
+### The namespace `jazz_bebop` has:
+
+  * `BaseAPI`: A container that routes requests to other containers
+  * `Space`: A common ancestor of `DataSpace` and `SemSpace`
+  * `OpCodes`: The ONNX language
+  * `Bop`: The compiler and decompiler
+  * `Snippet`: A `Concept` ancestor that contains both the source and the object code
+  * `Core`: (as in a CPU-core) a wrapper around the onnx-runtime the manages data objects, sessions and other onnx-runtime details.
 
 Code is executed in the `Core` class. This class descends from `BaseAPI` which is a `Container`. `BaseAPI` is also the parent of `API`.
 Simply put, an API is a container. but not permanently allocate data (it there just as long a request is being processed). Also, an API
 can parse requests and route them to the appropriate container.
 
+`Core` is the only object instantiated by the server's instantiation mechanism. The language (OpCodes), the compiler (Bop), the DataSpace
+and many Snippets inside `Core`.
+
 `Core` implements the `exec()` method. It inherits from `BaseAPI` which provides control over the containers in `jazz_elements`.
 
-### The namespace `jazz_bebop` also has:
-
-  * `Space`: A common ancestor of `DataSpace` and `SemSpace`
-  * `OpCodes`: The ONNX language
-  * `Bop`: The compiler and decompiler
-  * `Snippet`: A `Concept` ancestor that contains both the source and the object code
-  * `Core`: (as in a CPU-core) a wrapper around the onnx-runtime the manages data objects, sessions and other onnx-runtime details
+### The two flavors of Bebop
 
 You can consider Bebop (Bop) a language with two "flavors": a **formal** one that can be compiled and is defined by everything in this
 namespace and an **informal** natural language that is converted into compilable code by a `Model` in `jazz_models`.
@@ -131,8 +143,10 @@ namespace and an **informal** natural language that is converted into compilable
 ## Models are a superior form of code execution
 
 ```
-Service -> Container -> BaseAPI -> ModelsAPI  [serves Model descendants]
-               +-----------------> Model      [uses Core to compile and run solutions]
+Service -> Snippet ----------------> Concept    [Generalizes Snippet to informal code]
+   +-----> Container --------------> Model      [uses Core to compile and run solutions]
+               +------> Space -----> SemSpace   [Serves Concepts]
+               +------> BaseAPI ---> ModelsAPI  [serves Model descendants]
 ```
 
 At the level of `jazz_bebop`, we have a compiler that converts **formal** compilable Bebop code into **formal** object code. In this higher

@@ -86,7 +86,7 @@ CREATE_SUBDIRS         = NO
 # level increment doubles the number of directories, resulting in 4096
 # directories at level 8 which is the default and also the maximum value. The
 # sub-directories are organized in 2 levels, the first level always has a fixed
-# numer of 16 directories.
+# number of 16 directories.
 # Minimum value: 0, maximum value: 8, default value: 8.
 # This tag requires that the tag CREATE_SUBDIRS is set to YES.
 
@@ -489,7 +489,7 @@ NUM_PROC_THREADS       = 1
 # normally produced when WARNINGS is set to YES.
 # The default value is: NO.
 
-EXTRACT_ALL            = YES
+EXTRACT_ALL            = NO
 
 # If the EXTRACT_PRIVATE tag is set to YES, all private members of a class will
 # be included in the documentation.
@@ -886,7 +886,7 @@ WARN_LINE_FORMAT       = "at line $line of file $file"
 # specified the warning and error messages are written to standard output
 # (stdout).
 
-WARN_LOGFILE           =
+WARN_LOGFILE           = "doxy.warnings.txt"
 
 #---------------------------------------------------------------------------
 # Configuration options related to the input files

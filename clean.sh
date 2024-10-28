@@ -33,3 +33,5 @@ rm -rf jekyll_forty/assets/images/
 # rm -rf jekyll_so-simple/search/
 # rm -rf jekyll_so-simple/tags/
 # rm -rf jekyll_so-simple/theme-setup/
+
+rm -rf doxygen2/doxy.warnings.txt

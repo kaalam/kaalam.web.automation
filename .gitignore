@@ -4,3 +4,4 @@
 *.Rproj
 develop/*.html
 develop/rfc2/*.html
+.vscode

@@ -55,7 +55,9 @@ is parsed into its components.
 unparsed string form) and a locator-based interface (each component separately).
 
 6. Code execution is done via exec() (normal function calls) or modify() (external call made to services via Channels). At the level of
-jazz_elements, exec() is only declared but not implemented and modify() is used only in `Channels`.
+jazz_elements, exec() is only declared but not implemented and modify() is used only in `Channels`. Code executed via exec() corresponds
+to the API apply codes predicates APPLY_ASSIGN_FUNCTION and APPLY_ASSIGN_FUNCT_CONST. It is the most basic functionality that is later
+extended in BaseAPI and its descendants.
 
 7. The class also includes methods for locking and unlocking the container or entering and leaving read and write states
 (enter_read, enter_write, leave_read, leave_write), which are essential for managing concurrent access to the container.
@@ -95,10 +97,9 @@ the Jazz source tree. You can only uplift the `API` and the `ModelsAPI` classes.
 customized `Model` descendants that inherit from the Jazz `Model` class. A customized `API` class will typically restrict the
 access, making parts of it inaccessible, use credentials, tokens, etc. to make a Jazz server secure for internet access.
 
-  * **Instantiation**: As mentioned, you will only have one instance of each service. Besides `HttpServer` (which does not require
-special attention since customizing `API` is all you need to create commercial secure servers), every `Service` is a `Container`.
-`BaseAPI` and `API` are containers since they need to at least momentarily allocate `Block` objects. Containers have a `base_names()`
-mechanism to make `BaseAPI` descendants see where they are instantiated and call them.
+  * **Instantiation**: As mentioned, you will only have one instance of each service. `BaseAPI` and therefore `API` are containers since
+they need to at least momentarily allocate `Block` objects. Containers have a `base_names()` mechanism to make `BaseAPI` descendants see
+where they are instantiated and call them.
 
   * **instances.h/instances.cpp  in jazz_main**: Is a little module that instantiates everything (callback functions, Services possibly
 including uplifted ones) and provides a `start_service()`/`stop_service()` mechanism that logs and provides user feedback.
@@ -123,7 +124,7 @@ Service ----------> OpCodes           [ONNX language]
   * `OpCodes`: The ONNX language
   * `Bop`: The compiler and decompiler
   * `Snippet`: A `Concept` ancestor that contains both the source and the object code
-  * `Core`: (as in a CPU-core) a wrapper around the onnx-runtime the manages data objects, sessions and other onnx-runtime details.
+  * `Core`: (as in a CPU-core) A wrapper around the onnx-runtime the manages data objects, sessions and other onnx-runtime details
 
 Code is executed in the `Core` class. This class descends from `BaseAPI` which is a `Container`. `BaseAPI` is also the parent of `API`.
 Simply put, an API is a container. but not permanently allocate data (it there just as long a request is being processed). Also, an API
@@ -160,7 +161,7 @@ Bebop that can be compiled and executed by the `Core`. A single service serves m
 containers have: a base (a part of a locator) that identifies the model.
 
 
-## API
+## API as a BaseAPI descendant
 
 ```
 Service -> Container -> BaseAPI -> API  [Single http entry point aware of all Containers]
@@ -175,7 +176,29 @@ data, tables, indexing and execute programs.
   * [Now] API Gives unrestricted access to everything to anyone.
   * [Highest level: Uplifted API]: Establishes access restrictions, credentials, tokens, etc.
 
-The `API` class is a `Container` aware of every base in every other container, that routes requests to the appropriate container. The
+### The BaseAPI class
+
+`BaseAPI` handles everything that is neither http specific or requires code execution. If provides an interface that is on one side
+http oriented:
+
+  * header() Allows checking metadata without memory allocation. Similar to a http HEAD request.
+  * get() Support the entire querying language (which is a subset of Bop) and returns Tensors. Similar to a http GET request.
+  * put() Creates tensor inside a container. Similar to a http PUT request.
+  * remove() Deletes a tensor inside a container. Similar to a http DELETE request.
+
+And on the other side defines a subset of Bop that provides control over the containers.
+
+The subset of Bop that handles queries is defined by the use of apply in an ApiQueryState structure. The apply codes are 23 ranging from
+APPLY_NOTHING to APPLY_JAZZ_INFO and are defined and described in `jazz_elements::channel.h`.
+
+Code execution is done by the BaseAPI descendants (Core and ModelsAPI) by overriding the get() method to support all the apply codes
+from APPLY_NOTHING to APPLY_TEXT.
+
+### The API class
+
+The `API` class is a `BaseAPI` aware of every other `BaseAPI` descendant. As a `BaseAPI` itself it manages: Channels, Volatile and
+Persisted. It routes its http put() and delete() methods to its parent and its get() method to either its parent, Core or ModelAPI.
 `API` is called by the `http_request_callback()` callback function of the `HttpServer` class. Except for developing purposes it is
 typically uplifted to provide security and access control. Note that without restrictions, the `API` can execute any code on the server
-since it has access to the console via the `Chanel` container. The least harmful thing it can do is stop the server.
+since it has access to the console via the `Chanel` container. The least harmful thing it can do is stop the server. This functionality
+can also be disabled via configuration, but uplifting provides a total control over the server.

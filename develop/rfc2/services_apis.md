@@ -111,10 +111,10 @@ including uplifted ones) and provides a `start_service()`/`stop_service()` mecha
 Service ----------> OpCodes           [ONNX language]
    +--------------> Bop               [Compiler and decompiler]
    +--------------> Snippet           [Code snippet, parent of Concept]
-   +-> Container -> Space             [Parent of DataSpace and SemSpace]
-           |          +---> DataSpace [Abstracts tables and indexing]
-           +------> BaseAPI           [Manages petitions to Containers]
-                       +--> Core      [Compiles, runs code and serves]
+   +--------------> Space             [Parent of DataSpace and SemSpace]
+   |                  +---> DataSpace [Abstracts tables and indexing]
+   +-> Container -> BaseAPI           [Manages petitions to Containers]
+                      +---> Core      [Compiles, runs code and serves]
 ```
 
 ### The namespace `jazz_bebop` has:
@@ -127,7 +127,7 @@ Service ----------> OpCodes           [ONNX language]
   * `Core`: (as in a CPU-core) A wrapper around the onnx-runtime the manages data objects, sessions and other onnx-runtime details
 
 Code is executed in the `Core` class. This class descends from `BaseAPI` which is a `Container`. `BaseAPI` is also the parent of `API`.
-Simply put, an API is a container. but not permanently allocate data (it there just as long a request is being processed). Also, an API
+Simply put, an API is a container. but does not permanently allocate data (it does just as long a request is being processed). Also, an API
 can parse requests and route them to the appropriate container.
 
 `Core` is the only object instantiated by the server's instantiation mechanism. The language (OpCodes), the compiler (Bop), the DataSpace
@@ -145,8 +145,8 @@ namespace and an **informal** natural language that is converted into compilable
 
 ```
 Service -> Snippet ----------------> Concept    [Generalizes Snippet to informal code]
+   +-----> Space ------------------> SemSpace   [Serves Concepts]
    +-----> Container --------------> Model      [uses Core to compile and run solutions]
-               +------> Space -----> SemSpace   [Serves Concepts]
                +------> BaseAPI ---> ModelsAPI  [serves Model descendants]
 ```
 
@@ -178,18 +178,18 @@ data, tables, indexing and execute programs.
 
 ### The BaseAPI class
 
-`BaseAPI` handles everything that is neither http specific or requires code execution. If provides an interface that is on one side
+`BaseAPI` handles everything that is neither http specific or requires code execution. It provides an interface that is on one side
 http oriented:
 
   * header() Allows checking metadata without memory allocation. Similar to a http HEAD request.
-  * get() Support the entire querying language (which is a subset of Bop) and returns Tensors. Similar to a http GET request.
-  * put() Creates tensor inside a container. Similar to a http PUT request.
+  * get() Supports the entire querying language (which is a subset of Bop) and returns Tensors. Similar to a http GET request.
+  * put() Writes a tensor inside a container. Similar to a http PUT request.
   * remove() Deletes a tensor inside a container. Similar to a http DELETE request.
 
 And on the other side defines a subset of Bop that provides control over the containers.
 
-The subset of Bop that handles queries is defined by the use of apply in an ApiQueryState structure. The apply codes are 23 ranging from
-APPLY_NOTHING to APPLY_JAZZ_INFO and are defined and described in `jazz_elements::channel.h`.
+The subset of Bop that handles queries is defined by the use of the `apply` property in an ApiQueryState structure. There are 23 codes
+ranging from APPLY_NOTHING to APPLY_JAZZ_INFO. See `jazz_elements::channel.h`.
 
 Code execution is done by the BaseAPI descendants (Core and ModelsAPI) by overriding the get() method to support all the apply codes
 from APPLY_NOTHING to APPLY_TEXT.
@@ -201,4 +201,4 @@ Persisted. It routes its http put() and delete() methods to its parent and its g
 `API` is called by the `http_request_callback()` callback function of the `HttpServer` class. Except for developing purposes it is
 typically uplifted to provide security and access control. Note that without restrictions, the `API` can execute any code on the server
 since it has access to the console via the `Chanel` container. The least harmful thing it can do is stop the server. This functionality
-can also be disabled via configuration, but uplifting provides a total control over the server.
+can also be disabled via configuration, but uplifting provides total control over the server, not just disabling features.

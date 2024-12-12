@@ -110,9 +110,9 @@ including uplifted ones) and provides a `start_service()`/`stop_service()` mecha
 ```
 Service ----------> OpCodes           [ONNX language]
    +--------------> Bop               [Compiler and decompiler]
-   +--------------> Snippet           [Code snippet, parent of Concept]
-   +--------------> Space             [Parent of DataSpace and SemSpace]
+   +--------------> Space             [Parent of DataSpace, Snippet and SemSpace]
    |                  +---> DataSpace [Abstracts tables and indexing]
+   |                  +---> Snippet   [Code snippet, parent of Concept]
    +-> Container -> BaseAPI           [Manages petitions to Containers]
                       +---> Core      [Compiles, runs code and serves]
 ```
@@ -120,10 +120,10 @@ Service ----------> OpCodes           [ONNX language]
 ### The namespace `jazz_bebop` has:
 
   * `BaseAPI`: A container that routes requests to other containers
-  * `Space`: A common ancestor of `DataSpace` and `SemSpace`
-  * `OpCodes`: The ONNX language
+  * `Space`: A common ancestor of `DataSpace`, `Snippet` and `SemSpace` that provides the space abstraction to blocks inside containers.
+  * `OpCodes`: The ONNX language definition
   * `Bop`: The compiler and decompiler
-  * `Snippet`: A `Concept` ancestor that contains both the source and the object code
+  * `Snippet`: A `Space` to manage executable code, contains: requirements, source and object code
   * `Core`: (as in a CPU-core) A wrapper around the onnx-runtime the manages data objects, sessions and other onnx-runtime details
 
 Code is executed in the `Core` class. This class descends from `BaseAPI` which is a `Container`. `BaseAPI` is also the parent of `API`.
@@ -144,10 +144,10 @@ namespace and an **informal** natural language that is converted into compilable
 ## Models are a superior form of code execution
 
 ```
-Service -> Snippet ----------------> Concept    [Generalizes Snippet to informal code]
-   +-----> Space ------------------> SemSpace   [Serves Concepts]
-   +-----> Container --------------> Model      [uses Core to compile and run solutions]
-               +------> BaseAPI ---> ModelsAPI  [serves Model descendants]
+Service -> Space ------------------> SemSpace  [Serves Concepts]
+   |         +--------> Snippet ---> Concept   [Generalizes Snippet to informal code]
+   +-----> Container --------------> Model     [uses Core to compile and run solutions]
+               +------> BaseAPI ---> ModelsAPI [serves Model descendants]
 ```
 
 At the level of `jazz_bebop`, we have a compiler that converts **formal** compilable Bebop code into **formal** object code. In this higher

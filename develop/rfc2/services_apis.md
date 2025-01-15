@@ -1,4 +1,4 @@
-# Jazz Services, APIs and instantiation
+# Jazz Services, APIs and Instantiation
 
 Jazz is a single monolithic process. It allocates data and code (which is data) through some classes that only have one instance of each.
 This document describes the logic behind it.

@@ -110,8 +110,9 @@ including uplifted ones) and provides a `start_service()`/`stop_service()` mecha
 ```
 Service ----------> OpCodes           [ONNX language]
    +--------------> Bop               [Compiler and decompiler]
-   +--------------> Space             [Parent of DataSpace, Snippet and SemSpace]
+   +--------------> Space             [Parent of DataSpace, Field and Snippet]
    |                  +---> DataSpace [Abstracts tables and indexing]
+   |                  +---> Field	  [Storage for snippets, parent of SemSpace]
    |                  +---> Snippet   [Code snippet, parent of Concept]
    +-> Container -> BaseAPI           [Manages petitions to Containers]
                       +---> Core      [Compiles, runs code and serves]
@@ -123,6 +124,7 @@ Service ----------> OpCodes           [ONNX language]
   * `Space`: A common ancestor of `DataSpace`, `Snippet` and `SemSpace` that provides the space abstraction to blocks inside containers.
   * `OpCodes`: The ONNX language definition
   * `Bop`: The compiler and decompiler
+  * `Field`: A `Space` to store snippets
   * `Snippet`: A `Space` to manage executable code, contains: requirements, source and object code
   * `Core`: (as in a CPU-core) A wrapper around the onnx-runtime the manages data objects, sessions and other onnx-runtime details
 
@@ -144,7 +146,7 @@ namespace and an **informal** natural language that is converted into compilable
 ## Models are a superior form of code execution
 
 ```
-Service -> Space ------------------> SemSpace  [Serves Concepts]
+Service -> Space -----> Field -----> SemSpace  [Serves Concepts]
    |         +--------> Snippet ---> Concept   [Generalizes Snippet to informal code]
    +-----> Container --------------> Model     [uses Core to compile and run solutions]
                +------> BaseAPI ---> ModelsAPI [serves Model descendants]

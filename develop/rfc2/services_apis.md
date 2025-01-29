@@ -111,7 +111,7 @@ The Jazz server instantiates services, one instance of each, following these rul
 
   * Services that are common ancestors (Service, Container, BaseAPI, Model, Space) are not instantiated. Only their descendants are.
   * Core owns: Bop, OpCodes DataSpace and Fields. These Services are instantiated by Core and remain private.
-  * ModelsAPI owns: The model descendants (which are uplifts) and SemSpace.
+  * ModelsAPI owns: The model descendants (which are uplifts) and SemSpaces.
 
 ```
   Globals:    Used by:             Owns:                            Uplifted:
@@ -133,7 +133,7 @@ Service ----------> OpCodes            [ONNX language]
    +--------------> Bop                [Compiler and decompiler]
    +--------------> Space              [Parent of DataSpace and Fields]
    |                  +----> DataSpace [Abstracts tables and indexing]
-   |                  +----> Fields    [Storage for snippets, parent of SemSpace]
+   |                  +----> Fields    [Storage for snippets, parent of SemSpaces]
    +-> Container -> BaseAPI            [Manages petitions to Containers]
                       +----> Core      [Compiles, runs code and serves]
 Block ------------> Tuple -> Snippet   [Code snippet, parent of Concept]
@@ -169,7 +169,7 @@ namespace and an **informal** natural language that is converted into compilable
 ## Models are a superior form of code execution
 
 ```
-Service -> Space -----> Fields ----> SemSpace  [Serves Concepts]
+Service -> Space -----> Fields ----> SemSpaces [Serves Concepts]
    +-----> Container --------------> Model     [uses Core to compile and run solutions]
                +------> BaseAPI ---> ModelsAPI [serves Model descendants]
 Block ---> Tuple -----> Snippet ---> Concept   [Generalizes Snippet to informal code]

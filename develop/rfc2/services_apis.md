@@ -110,52 +110,52 @@ including uplifted ones) and provides a `start_service()`/`stop_service()` mecha
 The Jazz server instantiates services, one instance of each, following these rules:
 
   * Services that are common ancestors (Service, Container, BaseAPI, Model, Space) are not instantiated. Only their descendants are.
-  * Core owns: Bop, OpCodes DataSpaces and Fields. These Services are instantiated by Core and remain private.
+  * Core owns: DataSpaces, Fields and Bop (which owns OpCodes). These Services are instantiated by Core and remain private.
   * ModelsAPI owns: The model descendants (which are uplifts) and SemSpaces.
 
 ```
-  Globals:    Used by:             Owns:                             Uplifted:
-  --------    --------             -----                             ---------
-  Channel     BaseAPI descendants  -- nothing --                     No
-  Volatile    BaseAPI descendants  -- nothing --                     No
-  Persisted   BaseAPI descendants  -- nothing --                     No
-  Core        ModelsAPI, API       Bop, OpCodes, DataSpaces, Fields  No
-  ModelsAPI   API                  Model descendants, SemSpaces      Possibly
-  API         HttpServer           -- nothing --                     Possibly
-  HttpServer  -- the world --      -- nothing --                     No
+  Globals:    Used by:             Owns:                            Uplifted:
+  --------    --------             -----                            ---------
+  Channel     BaseAPI descendants  -- nothing --                    No
+  Volatile    BaseAPI descendants  -- nothing --                    No
+  Persisted   BaseAPI descendants  -- nothing --                    No
+  Core        ModelsAPI, API       DataSpaces, Fields, OpCodes/Bop  No
+  ModelsAPI   API                  Model descendants, SemSpaces     Possibly
+  API         HttpServer           -- nothing --                    Possibly
+  HttpServer  -- the world --      -- nothing --                    No
 ```
 
 
 ## Execution: BaseAPI, Space, DataSpaces, OpCodes, Bop, Snippet, Core
 
 ```
-Service ----------> OpCodes             [ONNX language]
-   +--------------> Bop                 [Compiler and decompiler]
-   +--------------> Space               [Parent of DataSpaces and Fields]
-   |                  +----> DataSpaces [Abstracts tables and indexing]
-   |                  +----> Fields     [Storage for snippets, parent of SemSpaces]
-   +-> Container -> BaseAPI             [Manages petitions to Containers]
-                      +----> Core       [Compiles, runs code and serves]
-Block ------------> Tuple -> Snippet    [Code snippet, parent of Concept]
+Service ----------> OpCodes          [ONNX language]
+   +--------------> Bop              [Compiler and decompiler]
+   +--------------> Space            [Parent of xxxSpace classes inside DataSpaces]
+   +--------------> DataSpaces       [Abstracts tables and indexing]
+   +--------------> Fields           [Storage for snippets, parent of SemSpaces]
+   +-> Container -> BaseAPI          [Manages petitions to Containers]
+                      +----> Core    [Compiles, runs code and serves]
+Block ------------> Tuple -> Snippet [Code snippet, parent of Concept]
 ```
 
 
 ### The namespace `jazz_bebop` has:
 
   * `BaseAPI`: A container that routes requests to other containers
-  * `Space`: A common ancestor of `DataSpaces` and `Fields` that provides the space abstraction to blocks inside containers.
+  * `Space`: A common ancestor of all the xxxSpace classes in `DataSpaces` that provide abstraction to blocks inside containers.
   * `OpCodes`: The ONNX language definition
   * `Bop`: The compiler and decompiler
-  * `Fields`: A `Space` to store snippets in formal fields (namespaces).
-  * `Snippet`: A tuple containing: requirements, source and object code
+  * `Fields`: A `Service` providing namespaces of snippets as formal fields (namespaces).
+  * `Snippet`: A tuple containing: source, intermadiate and object code
   * `Core`: (as in a CPU-core) A wrapper around the onnx-runtime the manages data objects, sessions and other onnx-runtime details
 
 Code is executed in the `Core` class. This class descends from `BaseAPI` which is a `Container`. `BaseAPI` is also the parent of `API`.
 Simply put, an API is a container. but does not permanently allocate data (it does just as long a request is being processed). Also, an API
 can parse requests and route them to the appropriate container.
 
-`Core` is the only object instantiated by the server's instantiation mechanism. The language (OpCodes), the compiler (Bop), the DataSpaces
-and Fields to store the Snippets.
+`Core` is the only object instantiated by the server's instantiation mechanism. It owns (as a private attribute) the DataSpaces, the Fields
+(to store the Snippets) and the compiler, Bop, which owns the language (OpCodes).
 
 `Core` implements the `exec()` method. It inherits from `BaseAPI` which provides control over the containers in `jazz_elements`.
 
@@ -169,10 +169,10 @@ namespace and an **informal** natural language that is converted into compilable
 ## Models are a superior form of code execution
 
 ```
-Service -> Space -----> Fields ----> SemSpaces [Serves Concepts]
-   +-----> Container --------------> Model     [uses Core to compile and run solutions]
-               +------> BaseAPI ---> ModelsAPI [serves Model descendants]
-Block ---> Tuple -----> Snippet ---> Concept   [Generalizes Snippet to informal code]
+Service ------------> Fields ---> SemSpaces [Serves Concepts]
+   +----> Container ------------> Model     [uses Core to compile and run solutions]
+              +-----> BaseAPI --> ModelsAPI [serves Model descendants]
+Block --> Tuple ----> Snippet --> Concept   [Generalizes Snippet to informal code]
 ```
 
 At the level of `jazz_bebop`, we have a compiler that converts **formal** compilable Bebop code into **formal** object code. In this higher

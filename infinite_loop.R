@@ -13,6 +13,7 @@ while (TRUE)
 {
 	build_all()
 	upload_all()
+	Sys.sleep(0.1)
 
 	system(paste('inotifywait -e create,close_write,delete -r', path))
 }

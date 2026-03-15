@@ -1,6 +1,6 @@
 # Development Documentation for the Jazz Server
 
-Jazz 1.25.+ is code name for anything alive and maintained. After Jazz 0.1.7 was released under an Apache 2.0 license in December 2017.
+Jazz >= 1.25.0 is anything alive and maintained. After Jazz 0.1.7 was released under an Apache 2.0 license in December 2017.
 
 ### History:
 
@@ -13,8 +13,9 @@ Jazz 1.25.+ is code name for anything alive and maintained. After Jazz 0.1.7 was
  - Jazz 0.5.2 is a release in progress with some API enhancements to deploy "The Tangle".
  - Jazz 0.6.1 is the project of developing Bop on a stable mature Jazz that has everything in terms of blocks, containers and communications.
  - Jazz 1.25.0 Introduces Bebop-25, the first version of Bop that compiles to onnx.
+ - Jazz 1.26.x Bebop redesign with an independent core namespace and Bebop uplifts.
 
-## Requests For Comments (RFC) Jazz 1.25.+
+## Requests For Comments (RFC) Jazz 1.26.+
 
  - [Jazz C++ Style Guide](rfc2/jazz_cpp_style_guide.html)
  - [On compiling from source](../jazz_reference/using_compile_jazz.html)
@@ -23,9 +24,9 @@ Jazz 1.25.+ is code name for anything alive and maintained. After Jazz 0.1.7 was
  - [On the Jazz Actor model (multithreading reference)](rfc2/jazz_actor_model.html)
  - [On the Jazz Services, APIs and instantiation](rfc2/services_apis.html)
 
-## The Jazz Server Jazz 1.25.+
+## The Jazz Server Jazz 1.26.+
 
- - [Jazz server 1.25.+ programming documentation](../develop_jazz02/index.html)
+ - [Jazz server 1.26.+ programming documentation](../develop_jazz02/index.html)
 
 ## Third Party Libraries in the Server
 
